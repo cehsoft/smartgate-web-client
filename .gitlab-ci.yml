@@ -1,0 +1,8 @@
+include:
+- project: infra/devops/gitlab-ci
+  ref: master
+  file: /gitlab-ci.yaml
+
+
+variables:
+  DEPLOY_REGION: 'ECAPTURE'

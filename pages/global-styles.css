@@ -1,0 +1,72 @@
+/* @tailwind base; */
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "ibm_plex";
+  src: url("/fonts/ibmplexsans-thin-webfont.woff2") format("woff2"),
+    url("/fonts/ibmplexsans-thin-webfont.woff") format("woff"),
+    url("/fonts/ibmplexsans-thin-webfont.ttf") format("truetype"),
+    url("/fonts/ibmplexsans-thin-webfont.svg#ibm_plex_sansthin") format("svg");
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ibm_plex";
+  src: url("/fonts/ibmplexsans-bold-webfont.woff2") format("woff2"),
+    url("/fonts/ibmplexsans-bold-webfont.woff") format("woff"),
+    url("/fonts/ibmplexsans-bold-webfont.ttf") format("truetype"),
+    url("/fonts/ibmplexsans-bold-webfont.svg#ibm_plex_sansbold") format("svg");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ibm_plex";
+  src: url("/fonts/ibmplexsans-semibold-webfont.woff2") format("woff2"),
+    url("/fonts/ibmplexsans-semibold-webfont.woff") format("woff"),
+    url("/fonts/ibmplexsans-semibold-webfont.ttf") format("truetype"),
+    url("/fonts/ibmplexsans-semibold-webfont.svg#ibm_plex_sanssemibold")
+      format("svg");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ibm_plex";
+  src: url("/fonts/ibmplexsans-italic-webfont.woff2") format("woff2"),
+    url("/fonts/ibmplexsans-italic-webfont.woff") format("woff"),
+    url("/fonts/ibmplexsans-italic-webfont.ttf") format("truetype"),
+    url("/fonts/ibmplexsans-italic-webfont.svg#ibm_plex_sansitalic")
+      format("svg");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "ibm_plex";
+  src: url("/fonts/ibmplexsans-regular-webfont.woff2") format("woff2"),
+    url("/fonts/ibmplexsans-regular-webfont.woff") format("woff"),
+    url("/fonts/ibmplexsans-regular-webfont.ttf") format("truetype"),
+    url("/fonts/ibmplexsans-regular-webfont.svg#ibm_plex_sansregular")
+      format("svg");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ibm_plex";
+  src: url("/fonts/ibmplexsans-light-webfont.woff2") format("woff2"),
+    url("/fonts/ibmplexsans-light-webfont.woff") format("woff"),
+    url("/fonts/ibmplexsans-light-webfont.ttf") format("truetype"),
+    url("/fonts/ibmplexsans-light-webfont.svg#ibm_plex_sanslight") format("svg");
+  font-weight: 300;
+  font-style: normal;
+}
+
+html {
+  font-family: ibm_plex, system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

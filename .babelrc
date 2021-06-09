@@ -1,0 +1,7 @@
+{
+  "presets": ["next/babel", "@linaria"],
+  "plugins": [
+    "babel-plugin-jsx-classnames-advanced",
+    ["@babel/plugin-proposal-decorators", { "legacy": true }]
+  ]
+}

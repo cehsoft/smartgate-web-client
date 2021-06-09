@@ -1,0 +1,26 @@
+{
+  "cSpell.words": [
+    "SPITC",
+    "heroicons",
+    "linaria",
+    "plex",
+    "reakit",
+    "reduxjs",
+    "swipeable",
+    "tailwindcss",
+    "twind"
+  ],
+  // CSS
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "css.validate": true,
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.experimental.classRegex": [
+    ["@apply\\s+(.*);"]
+    // ["classNames\\(([^)]*)\\)", "'([^']*)'", "\"([^']*)\""],
+    // [":(?:.|\n)*?[\"'`]([^\"'`]*).*?,"],
+    // [":\\s*?[\"'`]([^\"'`]*).*?,"],
+    // ["baseStyle.=.[\"'`]([^\"'`]*)"] //` for this case that i use it `const baseStyle = "tailwindcss ........"
+  ]
+}
