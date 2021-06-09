@@ -36,7 +36,11 @@ export class MediaSourceStream {
     // get packets from queue FIFO
     const data = this.bufferQueue.shift();
     // add packet to sourceBuffer for displaying
-    this.sourceBuffer.appendBuffer(data);
+    try {
+      this.sourceBuffer.appendBuffer(data);
+    } catch (error) {
+      console.log("error", error);
+    }
   }
 
   pushPacket(data: ArrayBuffer) {
