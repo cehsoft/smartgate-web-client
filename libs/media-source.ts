@@ -8,7 +8,7 @@ export class MediaSourceStream {
     this.mediaSource = new MediaSource();
     this.mediaSource.onsourceopen = () => {
       this.sourceBuffer = this.mediaSource.addSourceBuffer(format);
-      this.sourceBuffer.mode = "segments";
+      this.sourceBuffer.mode = "sequence";
 
       // bind `updateend` event handler for sourceBuffer
       this.sourceBuffer.addEventListener("updateend", () => {

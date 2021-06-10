@@ -20,17 +20,20 @@ export const SideNav: FC = ({ children }) => {
     >
       {/* <BXSideNav aria-label="Side navigation" isRail isFixedNav expanded={true}> */}
       <SideNavItems isSideNavExpanded={open}>
-        <SideNavMenu renderIcon={Recording16} title="Cổng Vào - 1" large>
+        <SideNavMenu
+          aria-current="page"
+          renderIcon={Recording16}
+          title="Cổng Vào - 1"
+          large
+        >
           <SideNavMenuItem aria-current="page" href="#">
-            Phân giải 360
+            Tất cả
           </SideNavMenuItem>
-          <SideNavMenuItem href="#">Phân giải 720</SideNavMenuItem>
-          <SideNavMenuItem href="#">Phân giải 1080</SideNavMenuItem>
         </SideNavMenu>
         <SideNavMenu renderIcon={Recording16} title="Cổng Ra - 1" large>
-          <SideNavMenuItem href="#">Phân giải 360</SideNavMenuItem>
+          {/* <SideNavMenuItem href="#">Phân giải 360</SideNavMenuItem>
           <SideNavMenuItem href="#">Phân giải 720</SideNavMenuItem>
-          <SideNavMenuItem href="#">Phân giải 1080</SideNavMenuItem>
+          <SideNavMenuItem href="#">Phân giải 1080</SideNavMenuItem> */}
         </SideNavMenu>
       </SideNavItems>
     </BXSideNav>
