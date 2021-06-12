@@ -12,7 +12,7 @@ class HTTP {
 
       HTTP.instance = this;
     }
-    console.log("created HTTP instance:", process.env.NEXT_PUBLIC_API_HOST);
+    // console.log("created HTTP instance:", process.env.NEXT_PUBLIC_API_HOST);
 
     return HTTP.instance;
   }
