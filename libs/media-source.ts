@@ -3,8 +3,14 @@ export class MediaSourceStream {
   mediaSource: MediaSource;
   sourceBuffer: SourceBuffer;
   bufferQueue: BufferSource[] = [];
+  handleError: (error: any) => void;
 
-  constructor(format = 'video/mp4; codecs="avc1.42C01E"') {
+  constructor(
+    format = 'video/mp4; codecs="avc1.42C01E"',
+    onError: (error) => void = () => {}
+  ) {
+    this.handleError = onError;
+
     this.mediaSource = new MediaSource();
     this.mediaSource.onsourceopen = () => {
       this.sourceBuffer = this.mediaSource.addSourceBuffer(format);
@@ -15,8 +21,6 @@ export class MediaSourceStream {
         // try to load packets in queue when sourceBuffer idle
         this._loadPacketToBuf();
       });
-
-      this.isReady = true;
     };
   }
 
@@ -29,7 +33,11 @@ export class MediaSourceStream {
   }
 
   _loadPacketToBuf() {
-    if (!this.isReady || this.isQueueEmpty() || this.isBufferBusy()) {
+    if (this.mediaSource.readyState !== "open") {
+      return;
+    }
+
+    if (this.isQueueEmpty() || this.isBufferBusy()) {
       return;
     }
 
@@ -39,7 +47,7 @@ export class MediaSourceStream {
     try {
       this.sourceBuffer.appendBuffer(data);
     } catch (error) {
-      console.log("error", error);
+      this.handleError(error);
     }
   }
 
