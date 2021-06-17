@@ -27,8 +27,9 @@ export const SideNav: FC = ({ children }) => {
           large
         >
           <SideNavMenuItem aria-current="page" href="#">
-            Tất cả
+            Kiểm soát cổng
           </SideNavMenuItem>
+          <SideNavMenuItem href="#">Lịch sử (Sắp có)</SideNavMenuItem>
         </SideNavMenu>
         <SideNavMenu renderIcon={Recording16} title="Cổng Ra - 1" large>
           {/* <SideNavMenuItem href="#">Phân giải 360</SideNavMenuItem>

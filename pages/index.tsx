@@ -23,10 +23,9 @@ export const Home = () => {
     grpc.invoke(MyGRPC.pullMLResult, {
       transport: grpc.WebsocketTransport(),
       request: new ReqEmpty(),
-      host: "https://localhost:3002",
+      host: "http://localhost:3000",
       onMessage: (message: ResMLResult) => {
         const result = message.toObject();
-
         setContainerId(result.containerid);
       },
       onEnd: (code, msg, trailers) => {
@@ -75,7 +74,7 @@ export const Home = () => {
               <span>{position}</span>
             </div>
             <WebRTCPlayer
-              signalingPath="http://localhost:8080/signaling"
+              signalingPath="http://localhost:3030/signaling"
               camId={name}
             />
           </div>

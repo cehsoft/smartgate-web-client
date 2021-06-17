@@ -8,7 +8,13 @@ export const WebRTCPlayer: FC<{
 
   useEffect(() => {
     if (playerRef.current != null) {
-      const peer = new RTCPeerConnection();
+      const peer = new RTCPeerConnection({
+        iceServers: [
+          {
+            urls: "stun:stun.l.google.com:19302",
+          },
+        ],
+      });
 
       peer.addTransceiver("video");
       peer.oniceconnectionstatechange = () =>
@@ -35,11 +41,15 @@ export const WebRTCPlayer: FC<{
         })
         .then((res) => res.json())
         .then((res) => peer.setRemoteDescription(res))
-        .catch(alert);
+        .catch((err) => {
+          console.warn(err);
+        });
     }
   }, [playerRef]);
 
-  return <video ref={playerRef} width="100%" autoPlay controls muted></video>;
+  return (
+    <video ref={playerRef} width="100%" autoPlay controls={false} muted></video>
+  );
 };
 
 export default WebRTCPlayer;
