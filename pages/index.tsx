@@ -3,9 +3,10 @@ import dynamic from "next/dynamic";
 import { useCallback, useEffect, useState } from "react";
 import { grpc } from "@improbable-eng/grpc-web";
 import { TextInput, Button } from "carbon-components-react";
+import { sortBy, prop } from "ramda";
 
 import { useSelector, useDispatch } from "@/store/hooks";
-import { addNewResult } from "@/store/slices/container";
+import { addNewResult, confirm } from "@/store/slices/container";
 import { MyGRPC } from "@/libs/proto/service_pb_service";
 import { ReqEmpty, ResMLResult } from "@/libs/proto/service_pb";
 
@@ -17,7 +18,9 @@ const WebRTCPlayer = dynamic(() => import("@/components/shared/WebRTCPlayer"), {
 
 export const Home = () => {
   const dispatch = useDispatch();
-  const suggests = useSelector((state) => state.container.trackingResults);
+  const suggests = useSelector((state) =>
+    sortBy(prop("score"), state.container.trackingResults)
+  );
 
   const cameras = [
     {
@@ -92,7 +95,8 @@ export const Home = () => {
               <span className="font-semibold">Các mã gợi ý từ hệ thống</span>
             </div>
             <div className="p-4 bg-gray-200">
-              {suggests.map((s) => (
+              {suggests.length === 0 && <span>Chưa có gợi ý mới</span>}
+              {suggests.slice(0, 3).map((s) => (
                 <div
                   key={`${s.containerid}-${s.cachedid}`}
                   className={clsSuggestItem}
@@ -103,7 +107,9 @@ export const Home = () => {
                     id={`${s.containerid}-${s.cachedid}`}
                     defaultValue={s.containerid}
                   />
-                  <Button size="sm">Xác nhận</Button>
+                  <Button onClick={() => dispatch(confirm())} size="sm">
+                    Chọn
+                  </Button>
                 </div>
               ))}
             </div>
