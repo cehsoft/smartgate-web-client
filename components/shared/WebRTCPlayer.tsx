@@ -3,7 +3,8 @@ import { FC, useEffect, useRef } from "react";
 export const WebRTCPlayer: FC<{
   signalingPath: string;
   camId: string;
-}> = ({ signalingPath, camId }) => {
+  controls: boolean;
+}> = ({ signalingPath, camId, controls = true }) => {
   const playerRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
@@ -44,11 +45,19 @@ export const WebRTCPlayer: FC<{
         .catch((err) => {
           console.warn(err);
         });
+
+      return () => peer.close();
     }
-  }, [playerRef]);
+  }, [playerRef, camId]);
 
   return (
-    <video ref={playerRef} width="100%" autoPlay controls={false} muted></video>
+    <video
+      ref={playerRef}
+      width="100%"
+      autoPlay
+      controls={controls}
+      muted
+    ></video>
   );
 };
 

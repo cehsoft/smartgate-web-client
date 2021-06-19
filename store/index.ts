@@ -4,11 +4,13 @@ import { configureStore } from "@reduxjs/toolkit";
 import { reducer as session } from "@/store/slices/session";
 import { reducer as load } from "@/store/slices/load";
 import { reducer as video } from "@/store/slices/video";
+import { reducer as container } from "@/store/slices/container";
 
 const reducer = {
   session,
   load,
   video,
+  container,
 };
 
 export let store = configureStore({

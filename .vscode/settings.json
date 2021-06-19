@@ -1,6 +1,7 @@
 {
   "cSpell.words": [
     "SPITC",
+    "cacheid",
     "containerid",
     "grpc",
     "heroicons",
@@ -9,6 +10,7 @@
     "plex",
     "reakit",
     "reduxjs",
+    "semibold",
     "swipeable",
     "tailwindcss",
     "twind"
