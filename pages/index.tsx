@@ -49,7 +49,7 @@ export const Home = () => {
     grpc.invoke(MyGRPC.pullMLResult, {
       transport: grpc.WebsocketTransport(),
       request: new ReqEmpty(),
-      host: "http://localhost:3000",
+      host: "http://10.10.14.60:3000",
       onMessage: (message: ResMLResult) => {
         const result = message.toObject();
         dispatch(addNewResult(result));
@@ -84,7 +84,7 @@ export const Home = () => {
                       <span>{position}</span>
                     </div>
                     <WebRTCPlayer
-                      signalingPath="http://localhost:3030/signaling"
+                      signalingPath="http://10.10.14.60:3030/signaling"
                       controls={false}
                       camId={name}
                     />
@@ -123,7 +123,7 @@ export const Home = () => {
                 <span>{selectedCam.name}</span>
               </div>
               <WebRTCPlayer
-                signalingPath="http://localhost:3030/signaling"
+                signalingPath="http://10.10.14.60:3030/signaling"
                 controls={true}
                 camId={selectedCam.name}
               />
