@@ -1,34 +1,55 @@
-import jwtDecode, { JwtPayload } from "jwt-decode";
 import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { grpc } from "@improbable-eng/grpc-web";
-import { TextInput, Button } from "carbon-components-react";
 
+import { grpcInvoke } from "@/libs/grpc";
 import { MyGRPC } from "@/libs/proto/service_pb_service";
-import { ReqEmpty, ResMLResult } from "@/libs/proto/service_pb";
+import {
+  ReqEmpty,
+  ResMLResult,
+  ReqConfirmContainerID,
+} from "@/libs/proto/service_pb";
 
-export const confirm = createAsyncThunk(
+export const doConfirm = createAsyncThunk(
   "container/confirm",
-  async (args, { dispatch }) => {
-    console.log(">>>> here");
-    dispatch(reset());
+  async (
+    { cacheId, containerId }: { cacheId: number; containerId: string },
+    { fulfillWithValue, rejectWithValue, dispatch }
+  ) => {
+    const req = new ReqConfirmContainerID();
+    req.setContainerid(containerId);
+    req.setCachedid(cacheId);
 
-    // grpc.invoke(MyGRPC.pullMLResult, {
-    //   transport: grpc.WebsocketTransport(),
-    //   request: new ReqEmpty(),
-    //   host: "http://localhost:3000",
-    //   onMessage: (message: ResMLResult) => {
-    //     const result = message.toObject();
-    //     dispatch(containerSlice.actions.addNewResult(result));
-    //   },
-    //   onEnd: (code, msg, trailers) => {
-    //     if (code == grpc.Code.OK) {
-    //       fulfillWithValue(code);
-    //     } else {
-    //       console.log("here");
-    //       rejectWithValue({ code, msg, trailers });
-    //     }
-    //   },
-    // });
+    grpcInvoke(MyGRPC.confirmContainerID, {
+      request: req,
+      onEnd: (code, msg, trailers) => {
+        if (code == grpc.Code.OK) {
+          fulfillWithValue(code);
+          dispatch(reset());
+        } else {
+          rejectWithValue({ code, msg, trailers });
+        }
+      },
+    });
+  }
+);
+
+export const doPullMLResult = createAsyncThunk(
+  "container/pullMLResult",
+  async (args, { dispatch, fulfillWithValue, rejectWithValue }) => {
+    grpcInvoke(MyGRPC.pullMLResult, {
+      request: new ReqEmpty(),
+      onMessage: (message: ResMLResult) => {
+        const result = message.toObject();
+        dispatch(containerSlice.actions.addNewResult(result));
+      },
+      onEnd: (code, msg, trailers) => {
+        if (code == grpc.Code.OK) {
+          fulfillWithValue(code);
+        } else {
+          rejectWithValue({ code, msg, trailers });
+        }
+      },
+    });
   }
 );
 
@@ -48,17 +69,20 @@ export const containerSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(confirm.pending, (state, action) => {
+    builder.addCase(doConfirm.pending, (state, action) => {
       state.status = "pending";
       state.error = null;
     });
-    builder.addCase(confirm.fulfilled, (state, action) => {
+    builder.addCase(doConfirm.fulfilled, (state, action) => {
       state.status = "fulfilled";
     });
-    builder.addCase(confirm.rejected, (state, action) => {
+    builder.addCase(doConfirm.rejected, (state, action) => {
       state.status = "rejected";
       state.error = action.error.message;
     });
+    builder.addCase(doPullMLResult.pending, (state, action) => {});
+    builder.addCase(doPullMLResult.fulfilled, (state, action) => {});
+    builder.addCase(doPullMLResult.rejected, (state, action) => {});
   },
 });
 

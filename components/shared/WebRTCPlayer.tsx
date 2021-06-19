@@ -1,10 +1,14 @@
 import { FC, useEffect, useRef } from "react";
 
 export const WebRTCPlayer: FC<{
-  signalingPath: string;
+  signalingPath?: string;
   camId: string;
   controls: boolean;
-}> = ({ signalingPath, camId, controls = true }) => {
+}> = ({
+  signalingPath = process.env.NEXT_PUBLIC_WEBRTC_SIGNAL,
+  camId,
+  controls = true,
+}) => {
   const playerRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {

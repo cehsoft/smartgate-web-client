@@ -1,14 +1,11 @@
 import { css } from "linaria";
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useState } from "react";
-import { grpc } from "@improbable-eng/grpc-web";
+import { useEffect, useState } from "react";
 import { TextInput, Button } from "carbon-components-react";
-import { sortBy, prop } from "ramda";
+import { sort, descend, prop } from "ramda";
 
 import { useSelector, useDispatch } from "@/store/hooks";
-import { addNewResult, confirm } from "@/store/slices/container";
-import { MyGRPC } from "@/libs/proto/service_pb_service";
-import { ReqEmpty, ResMLResult } from "@/libs/proto/service_pb";
+import { doConfirm, doPullMLResult } from "@/store/slices/container";
 
 import { Page } from "@/components/layout/Page";
 
@@ -19,7 +16,7 @@ const WebRTCPlayer = dynamic(() => import("@/components/shared/WebRTCPlayer"), {
 export const Home = () => {
   const dispatch = useDispatch();
   const suggests = useSelector((state) =>
-    sortBy(prop("score"), state.container.trackingResults)
+    sort(descend(prop("score")), state.container.trackingResults)
   );
 
   const cameras = [
@@ -46,22 +43,7 @@ export const Home = () => {
   ];
 
   useEffect(() => {
-    grpc.invoke(MyGRPC.pullMLResult, {
-      transport: grpc.WebsocketTransport(),
-      request: new ReqEmpty(),
-      host: "http://10.10.14.60:3000",
-      onMessage: (message: ResMLResult) => {
-        const result = message.toObject();
-        dispatch(addNewResult(result));
-      },
-      onEnd: (code, msg, trailers) => {
-        if (code == grpc.Code.OK) {
-          console.log("all ok");
-        } else {
-          console.log("hit an error", code, msg, trailers);
-        }
-      },
-    });
+    dispatch(doPullMLResult());
   }, []);
 
   const [selectedCam, setCam] = useState(cameras[0]);
@@ -83,11 +65,7 @@ export const Home = () => {
                     <div className="bg-white p-2 font-semibold flex flex-row justify-between">
                       <span>{position}</span>
                     </div>
-                    <WebRTCPlayer
-                      signalingPath="http://10.10.14.60:3030/signaling"
-                      controls={false}
-                      camId={name}
-                    />
+                    <WebRTCPlayer controls={false} camId={name} />
                   </div>
                 ))}
             </div>
@@ -103,11 +81,21 @@ export const Home = () => {
                 >
                   <TextInput
                     className="mb-2"
-                    labelText="Mã gợi ý: 90%"
+                    labelText={`Mã gợi ý: ${Math.round(s.score * 100)}%`}
                     id={`${s.containerid}-${s.cachedid}`}
                     defaultValue={s.containerid}
                   />
-                  <Button onClick={() => dispatch(confirm())} size="sm">
+                  <Button
+                    onClick={() =>
+                      dispatch(
+                        doConfirm({
+                          cacheId: s.cachedid,
+                          containerId: s.containerid,
+                        })
+                      )
+                    }
+                    size="sm"
+                  >
                     Chọn
                   </Button>
                 </div>
@@ -122,11 +110,7 @@ export const Home = () => {
                 <span>{selectedCam.position}</span>
                 <span>{selectedCam.name}</span>
               </div>
-              <WebRTCPlayer
-                signalingPath="http://10.10.14.60:3030/signaling"
-                controls={true}
-                camId={selectedCam.name}
-              />
+              <WebRTCPlayer controls={true} camId={selectedCam.name} />
             </div>
           </div>
         </div>

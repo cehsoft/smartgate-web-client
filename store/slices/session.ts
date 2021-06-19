@@ -1,17 +1,15 @@
 import jwtDecode, { JwtPayload } from "jwt-decode";
 import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { http } from "@/libs/http";
+// import { http } from "@/libs/http";
 
 export const doLogin = createAsyncThunk(
   "session/login",
   async ({ username, password }: { username: string; password: string }) => {
-    const resp = await http.client.post("/api/login", {
+    // http.setToken(resp.data.access_token);
+    return {
       user: username,
       pass: password,
-    });
-
-    http.setToken(resp.data.access_token);
-    return resp.data as { access_token: string; refresh_token: string };
+    };
   }
 );
 
@@ -40,10 +38,10 @@ export const sessionSlice = createSlice({
     builder.addCase(doLogin.fulfilled, (state, action) => {
       state.status = "fulfilled";
       const decoded = jwtDecode<JwtPayload & { user: string }>(
-        action.payload.access_token
+        action.payload.user
       );
       state.user = decoded.user;
-      state.token = action.payload.access_token;
+      state.token = action.payload.pass;
     });
     builder.addCase(doLogin.rejected, (state, action) => {
       state.status = "rejected";
