@@ -16,7 +16,10 @@ export const WebRTCPlayer: FC<{
       const peer = new RTCPeerConnection({
         iceServers: [
           {
-            urls: "stun:stun.l.google.com:19302",
+            urls: process.env.NEXT_PUBLIC_TURN_URL,
+            username: process.env.NEXT_PUBLIC_TURN_USERNAME,
+            credential: process.env.NEXT_PUBLIC_TURN_PASSWORD,
+            credentialType: "password",
           },
         ],
       });
