@@ -79,17 +79,17 @@ export const Home = () => {
                 <ContainerIDConfirm
                   className="mb-2"
                   key={idx}
-                  cacheId={s.cachedid}
+                  suggestId={s.suggestid}
                   containerId={s.containerid}
                   score={s.score}
-                  onConfirm={(cacheId, id) =>
+                  onConfirm={(suggestId, id) => {
                     dispatch(
                       doConfirm({
-                        cacheId,
+                        suggestId,
                         containerId: id,
                       })
-                    )
-                  }
+                    );
+                  }}
                 />
               ))}
             </div>

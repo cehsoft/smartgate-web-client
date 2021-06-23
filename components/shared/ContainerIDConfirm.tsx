@@ -6,14 +6,14 @@ import { TextInput, Button } from "carbon-components-react";
 
 interface InputProps {
   containerId: string;
-  cacheId: number;
+  suggestId: number;
   score: number;
 
-  onConfirm(cacheId: number, containerId: string): void;
+  onConfirm(suggestId: number, containerId: string): void;
 }
 
 export const ContainerIDConfirm: StyleFC<InputProps> = forwardRef(
-  ({ style, className, containerId, cacheId, score, onConfirm }, ref) => {
+  ({ style, className, containerId, suggestId, score, onConfirm }, ref) => {
     const [id, setId] = useState(containerId);
 
     return (
@@ -21,13 +21,13 @@ export const ContainerIDConfirm: StyleFC<InputProps> = forwardRef(
         <TextInput
           className="mb-2"
           labelText={`Mã gợi ý: ${Math.round(score * 100)}%`}
-          id={`${containerId}-${cacheId}`}
+          id={`${containerId}-${suggestId}`}
           defaultValue={containerId}
           onChange={(e) => setId(e.target.value)}
         />
         <Button
           onClick={() => {
-            onConfirm(cacheId, id);
+            onConfirm(suggestId, id);
           }}
           size="sm"
         >

@@ -12,12 +12,12 @@ import {
 export const doConfirm = createAsyncThunk(
   "container/confirm",
   async (
-    { cacheId, containerId }: { cacheId: number; containerId: string },
+    { suggestId, containerId }: { suggestId: number; containerId: string },
     { fulfillWithValue, rejectWithValue, dispatch }
   ) => {
     const req = new ReqConfirmContainerID();
     req.setContainerid(containerId);
-    req.setCachedid(cacheId);
+    req.setSuggestid(suggestId);
 
     grpcInvoke(MyGRPC.confirmContainerID, {
       request: req,
@@ -26,6 +26,7 @@ export const doConfirm = createAsyncThunk(
           fulfillWithValue(code);
           dispatch(reset());
         } else {
+          console.log({ code, msg, trailers });
           rejectWithValue({ code, msg, trailers });
         }
       },
