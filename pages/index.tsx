@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "@/store/hooks";
 import { doConfirm, doPullMLResult } from "@/store/slices/container";
 
 import { Page } from "@/components/layout/Page";
+import { ContainerIDConfirm } from "@/components/shared/ContainerIDConfirm";
 
 const WebRTCPlayer = dynamic(() => import("@/components/shared/WebRTCPlayer"), {
   ssr: false,
@@ -74,31 +75,22 @@ export const Home = () => {
             </div>
             <div className="p-4 bg-gray-200">
               {suggests.length === 0 && <span>Chưa có gợi ý mới</span>}
-              {suggests.slice(0, 3).map((s) => (
-                <div
-                  key={`${s.containerid}-${s.cachedid}`}
-                  className={clsSuggestItem}
-                >
-                  <TextInput
-                    className="mb-2"
-                    labelText={`Mã gợi ý: ${Math.round(s.score * 100)}%`}
-                    id={`${s.containerid}-${s.cachedid}`}
-                    defaultValue={s.containerid}
-                  />
-                  <Button
-                    onClick={() =>
-                      dispatch(
-                        doConfirm({
-                          cacheId: s.cachedid,
-                          containerId: s.containerid,
-                        })
-                      )
-                    }
-                    size="sm"
-                  >
-                    Chọn
-                  </Button>
-                </div>
+              {suggests.slice(0, 3).map((s, idx) => (
+                <ContainerIDConfirm
+                  className="mb-2"
+                  key={idx}
+                  cacheId={s.cachedid}
+                  containerId={s.containerid}
+                  score={s.score}
+                  onConfirm={(cacheId, id) =>
+                    dispatch(
+                      doConfirm({
+                        cacheId,
+                        containerId: id,
+                      })
+                    )
+                  }
+                />
               ))}
             </div>
           </div>
