@@ -1,7 +1,6 @@
 import { css } from "linaria";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import { TextInput, Button } from "carbon-components-react";
 import { sort, descend, prop } from "ramda";
 
 import { useSelector, useDispatch } from "@/store/hooks";
@@ -71,10 +70,10 @@ export const Home = () => {
                 ))}
             </div>
             <div className="p-4 mt-4 text-white bg-black">
-              <span className="font-semibold">Các mã gợi ý từ hệ thống</span>
+              <span className="font-semibold">Các số container nhận diện</span>
             </div>
             <div className="p-4 bg-gray-200">
-              {suggests.length === 0 && <span>Chưa có gợi ý mới</span>}
+              {suggests.length === 0 && <span>Đang chờ lượt xe vào</span>}
               {suggests.slice(0, 3).map((s, idx) => (
                 <ContainerIDConfirm
                   className="mb-2"
