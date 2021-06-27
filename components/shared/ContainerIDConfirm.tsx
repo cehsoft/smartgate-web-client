@@ -5,23 +5,27 @@ import { useEffect, useState } from "react";
 import { TextInput, Button } from "carbon-components-react";
 
 interface InputProps {
-  containerId: string;
-  suggestId: number;
-  score: number;
+  containerId?: string;
+  suggestId?: number;
+  score?: number;
 
   onConfirm(suggestId: number, containerId: string): void;
 }
 
 export const ContainerIDConfirm: StyleFC<InputProps> = forwardRef(
-  ({ style, className, containerId, suggestId, score, onConfirm }, ref) => {
+  (
+    { style, className, containerId = "", suggestId, score, onConfirm },
+    ref
+  ) => {
     const [id, setId] = useState(containerId);
 
     return (
       <div className={[className, clsBase] as any} style={style}>
         <TextInput
           className="mb-2"
-          labelText={`Mã gợi ý: ${Math.round(score * 100)}%`}
-          id={`${containerId}-${suggestId}`}
+          labelText={score ? `Độ chính xác: ${Math.round(score * 100)}%` : ""}
+          id={suggestId ? `${containerId}-${suggestId}` : containerId}
+          placeholder="Hãy nhập số container"
           defaultValue={containerId}
           onChange={(e) => setId(e.target.value)}
         />
@@ -31,7 +35,7 @@ export const ContainerIDConfirm: StyleFC<InputProps> = forwardRef(
           }}
           size="sm"
         >
-          Chọn
+          {suggestId ? "Chọn" : "Chấp nhận"}
         </Button>
       </div>
     );

@@ -2,9 +2,10 @@ import { css } from "linaria";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { sort, descend, prop } from "ramda";
+import { RowDelete16 } from "@carbon/icons-react";
 
 import { useSelector, useDispatch } from "@/store/hooks";
-import { doConfirm, doPullMLResult } from "@/store/slices/container";
+import { doConfirm, doPullMLResult, reset } from "@/store/slices/container";
 
 import { Page } from "@/components/layout/Page";
 import { ContainerIDConfirm } from "@/components/shared/ContainerIDConfirm";
@@ -70,7 +71,33 @@ export const Home = () => {
                 ))}
             </div>
             <div className="p-4 mt-4 text-white bg-black">
-              <span className="font-semibold">Các số container nhận diện</span>
+              <span className="font-semibold">Nhập thủ công</span>
+            </div>
+            <div className="p-4 bg-gray-200">
+              <span>Trong trường hợp không thể nhập tự động</span>
+              <ContainerIDConfirm
+                className="mb-2 mt-4"
+                onConfirm={(suggestId, id) => {
+                  dispatch(
+                    doConfirm({
+                      suggestId: undefined,
+                      containerId: id,
+                    })
+                  );
+                }}
+              />
+            </div>
+            <div className="p-4 mt-4 text-white bg-black flex flex-row justify-between items-center">
+              <span className="font-semibold">Nhập tự động</span>
+              <span
+                className="flex flex-row justify-between items-center cursor-pointer"
+                onClick={() => {
+                  dispatch(reset());
+                }}
+              >
+                <span className="inline-block text-xs mr-1">Làm mới</span>{" "}
+                <RowDelete16 />
+              </span>
             </div>
             <div className="p-4 bg-gray-200">
               {suggests.length === 0 && <span>Đang chờ lượt xe vào</span>}
