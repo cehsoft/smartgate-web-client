@@ -7,9 +7,11 @@ import { Provider } from "react-redux";
 import { loadStore } from "@/store/index";
 
 import { LayoutMain } from "@/components/layout/LayoutMain";
+import { LayoutLogin } from "@/components/layout/LayoutLogin";
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps, router }: AppProps) {
   // console.log("pageProps.snapshotState", pageProps.snapshotState);
+  console.log(router.asPath);
 
   const store = useMemo(
     () => loadStore(pageProps.preloadedState),
@@ -18,9 +20,15 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <Provider store={store}>
-      <LayoutMain>
-        <Component {...pageProps} />
-      </LayoutMain>
+      {router.asPath !== "/login" ? (
+        <LayoutMain>
+          <Component {...pageProps} />
+        </LayoutMain>
+      ) : (
+        <LayoutLogin>
+          <Component {...pageProps} />
+        </LayoutLogin>
+      )}
     </Provider>
   );
 }

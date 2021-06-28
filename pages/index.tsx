@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { sort, descend, prop } from "ramda";
 import { RowDelete16 } from "@carbon/icons-react";
 
+import { useRequiredAuth } from "@/libs/hooks";
 import { useSelector, useDispatch } from "@/store/hooks";
 import { doConfirm, doPullMLResult, reset } from "@/store/slices/container";
 
@@ -15,6 +16,8 @@ const WebRTCPlayer = dynamic(() => import("@/components/shared/WebRTCPlayer"), {
 });
 
 export const Home = () => {
+  useRequiredAuth();
+
   const dispatch = useDispatch();
   const suggests = useSelector((state) =>
     sort(descend(prop("score")), state.container.trackingResults)

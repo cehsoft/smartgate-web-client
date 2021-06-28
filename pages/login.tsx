@@ -34,36 +34,33 @@ export const Login = () => {
   };
 
   return (
-    <Page>
-      <Container className="border-t border-transparent">
-        <Section>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSubmit(handleFormSubmit)();
-            }}
-          >
-            <Input
-              {...register("username", { required: true })}
-              placeholder="Username"
-            ></Input>
-            <Input
-              {...register("password", { required: true })}
-              className="mt-2"
-              type="password"
-              placeholder="Password"
-            ></Input>
-            <Button className="mt-2" type="submit" kind="primary" size="small">
-              Login
-            </Button>
-          </form>
-        </Section>
-        <Section>
-          {status !== "idle" && <p>{status}</p>}
-          <p>{error}</p>
-        </Section>
-      </Container>
-    </Page>
+    <Container className="mt-8">
+      <Section>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit(handleFormSubmit)();
+          }}
+        >
+          <Input
+            {...register("username", { required: true })}
+            placeholder="Tên đăng nhập"
+          ></Input>
+          <Input
+            {...register("password", { required: true })}
+            className="mt-2"
+            type="password"
+            placeholder="Mật khẩu"
+          ></Input>
+          <Button className="mt-2" type="submit" kind="primary" size="small">
+            Đăng nhập
+          </Button>
+        </form>
+      </Section>
+      <Section>
+        <p>{error}</p>
+      </Section>
+    </Container>
   );
 };
 
