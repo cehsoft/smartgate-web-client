@@ -102,21 +102,31 @@ export const Home = () => {
             <div className="p-4 bg-gray-200">
               {suggests.length === 0 && <span>Đang chờ lượt xe vào</span>}
               {suggests.slice(0, 3).map((s, idx) => (
-                <ContainerIDConfirm
-                  className="mb-2"
-                  key={idx}
-                  suggestId={s.suggestid}
-                  containerId={s.containerid}
-                  score={s.score}
-                  onConfirm={(suggestId, id) => {
-                    dispatch(
-                      doConfirm({
-                        suggestId,
-                        containerId: id,
-                      })
-                    );
-                  }}
-                />
+                <div className="flex flex-row">
+                  <img
+                    className="w-1/4 h-28 object-contain object-top"
+                    src={
+                      process.env.NEXT_PUBLIC_MINIO +
+                      s.imageurl.split("/").slice(4).join("/")
+                    }
+                    alt=""
+                  />
+                  <ContainerIDConfirm
+                    className="w-3/4 mb-2 ml-4"
+                    key={idx}
+                    suggestId={s.suggestid}
+                    containerId={s.containerid}
+                    score={s.score}
+                    onConfirm={(suggestId, id) => {
+                      dispatch(
+                        doConfirm({
+                          suggestId,
+                          containerId: id,
+                        })
+                      );
+                    }}
+                  />
+                </div>
               ))}
             </div>
           </div>
