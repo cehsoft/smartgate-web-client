@@ -26,7 +26,6 @@ export const ContainerIDConfirm: StyleFC<InputProps> = forwardRef(
           labelText={score ? `Độ chính xác: ${Math.round(score * 100)}%` : ""}
           id={suggestId ? `${containerId}-${suggestId}` : containerId}
           placeholder="Hãy nhập số container"
-          defaultValue={containerId}
           value={id}
           onChange={(e) => setId(e.target.value)}
         />
