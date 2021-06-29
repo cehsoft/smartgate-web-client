@@ -23,7 +23,11 @@ export const ContainerIDConfirm: StyleFC<InputProps> = forwardRef(
       <div className={[className] as any} style={style}>
         <TextInput
           className={["mb-2", clsInput] as any}
-          labelText={score ? `Độ chính xác: ${Math.round(score * 100)}%` : ""}
+          labelText={
+            score !== undefined
+              ? `Độ chính xác: ${Math.round(score * 100)}%`
+              : ""
+          }
           id={suggestId ? `${containerId}-${suggestId}` : containerId}
           placeholder="Hãy nhập số container"
           value={conId}

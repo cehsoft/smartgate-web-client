@@ -62,7 +62,8 @@ export const Home = () => {
       {modalSuggest && (
         <Modal
           open={hasModal}
-          modalLabel={`Độ chính xác: ${modalSuggest.score}`}
+          hasForm
+          modalLabel={`Độ chính xác: ${Math.round(modalSuggest.score * 100)}%`}
           modalHeading={modalSuggest.containerid}
           onRequestClose={() => {
             setModal(false);
@@ -136,26 +137,28 @@ export const Home = () => {
             <div className="p-4 bg-gray-200">
               {suggests.length === 0 && <span>Đang chờ lượt xe vào</span>}
               {suggests.slice(0, 3).map((s, idx) => (
-                <div className="flex flex-row">
-                  <img
-                    className="w-1/4 h-28 object-contain object-top cursor-pointer"
-                    src={
-                      process.env.NEXT_PUBLIC_MINIO +
-                      s.imageurl.split("/").slice(4).join("/")
-                    }
-                    onClick={() => {
-                      setModalSuggest({
-                        ...s,
-                        imageurl:
-                          process.env.NEXT_PUBLIC_MINIO +
-                          s.imageurl.split("/").slice(4).join("/"),
-                      });
-                      setModal(true);
-                    }}
-                    alt=""
-                  />
+                <div className="flex flex-row mb-2">
+                  <div className="w-1/4 h-28">
+                    <img
+                      className="w-full max-h-28 object-contain object-top cursor-pointer"
+                      src={
+                        process.env.NEXT_PUBLIC_MINIO +
+                        s.imageurl.split("/").slice(4).join("/")
+                      }
+                      onClick={() => {
+                        setModalSuggest({
+                          ...s,
+                          imageurl:
+                            process.env.NEXT_PUBLIC_MINIO +
+                            s.imageurl.split("/").slice(4).join("/"),
+                        });
+                        setModal(true);
+                      }}
+                      alt=""
+                    />
+                  </div>
                   <ContainerIDConfirm
-                    className="w-3/4 mb-2 ml-4"
+                    className="w-3/4 ml-4"
                     key={idx}
                     suggestId={s.suggestid}
                     containerId={s.containerid}
