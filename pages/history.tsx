@@ -30,12 +30,12 @@ export const History = () => {
   const headers = useMemo(
     () => [
       {
-        key: "imageurl",
-        header: "Hình ảnh",
-      },
-      {
         key: "id",
         header: "ID",
+      },
+      {
+        key: "imageurl",
+        header: "Hình ảnh",
       },
       {
         key: "containerid",
@@ -51,62 +51,71 @@ export const History = () => {
 
   return (
     <Page>
-      <DataTable rows={trackings as any} headers={headers}>
-        {({ rows, headers, getTableProps, getHeaderProps, getRowProps }) => (
-          <Table {...getTableProps()}>
-            <TableHead>
-              <TableRow>
-                {headers.map((header) => (
-                  <TableHeader {...getHeaderProps({ header })}>
-                    {header.header}
-                  </TableHeader>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <TableRow {...getRowProps({ row })}>
-                  {row.cells.map((cell) => {
-                    const [idx, field] = cell.id.split(":");
-                    console.log(field);
+      <div className="flex flex-row justify-center">
+        <DataTable
+          rows={trackings as any}
+          headers={headers}
+          useStaticWidth={true}
+          shouldShowBorder={true}
+        >
+          {({ rows, headers, getTableProps, getHeaderProps, getRowProps }) => (
+            <Table {...getTableProps()}>
+              <TableHead>
+                <TableRow>
+                  {headers.map((header, idx) => (
+                    <TableHeader {...getHeaderProps({ header })}>
+                      {header.header}
+                    </TableHeader>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => (
+                  <TableRow {...getRowProps({ row })}>
+                    {row.cells.map((cell) => {
+                      const [idx, field] = cell.id.split(":");
+                      console.log(field);
 
-                    if (field === "imageurl") {
-                      if (!cell.value) {
+                      if (field === "imageurl") {
+                        if (!cell.value) {
+                          return (
+                            <TableCell key={cell.id}>Không có hình</TableCell>
+                          );
+                        }
+
                         return (
-                          <TableCell key={cell.id}>Không có hình</TableCell>
+                          <TableCell key={cell.id}>
+                            <img
+                              className="max-w-xs max-h-36 object-contain object-top my-2"
+                              src={
+                                process.env.NEXT_PUBLIC_MINIO +
+                                cell.value.split("/").slice(4).join("/")
+                              }
+                              alt=""
+                            />
+                          </TableCell>
                         );
                       }
 
-                      return (
-                        <TableCell key={cell.id}>
-                          <img
-                            className="w-full h-28 object-contain object-top"
-                            src={
-                              process.env.NEXT_PUBLIC_MINIO +
-                              cell.value.split("/").slice(4).join("/")
-                            }
-                            alt=""
-                          />
-                        </TableCell>
-                      );
-                    }
+                      if (field === "createdat") {
+                        return (
+                          <TableCell key={cell.id}>
+                            {new Date(cell.value * 1000).toLocaleDateString()}
+                            &nbsp;
+                            {new Date(cell.value * 1000).toLocaleTimeString()}
+                          </TableCell>
+                        );
+                      }
 
-                    if (field === "createdat") {
-                      return (
-                        <TableCell key={cell.id}>
-                          {new Date(cell.value * 1000).toUTCString()}
-                        </TableCell>
-                      );
-                    }
-
-                    return <TableCell key={cell.id}>{cell.value}</TableCell>;
-                  })}
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        )}
-      </DataTable>
+                      return <TableCell key={cell.id}>{cell.value}</TableCell>;
+                    })}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
+        </DataTable>
+      </div>
     </Page>
   );
 };
