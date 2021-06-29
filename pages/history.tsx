@@ -10,6 +10,7 @@ import {
 } from "carbon-components-react";
 import { useEffect, useState, useMemo } from "react";
 import { sort, descend, prop } from "ramda";
+import { useRequiredAuth } from "@/libs/hooks";
 
 import { useSelector, useDispatch } from "@/store/hooks";
 import { doListTracking } from "@/store/slices/container";
@@ -17,6 +18,8 @@ import { doListTracking } from "@/store/slices/container";
 import { Page } from "@/components/layout/Page";
 
 export const History = () => {
+  useRequiredAuth();
+
   const dispatch = useDispatch();
   const trackings = useSelector((state) => state.container.trackings);
 

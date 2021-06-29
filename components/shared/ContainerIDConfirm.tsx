@@ -27,11 +27,13 @@ export const ContainerIDConfirm: StyleFC<InputProps> = forwardRef(
           id={suggestId ? `${containerId}-${suggestId}` : containerId}
           placeholder="Hãy nhập số container"
           defaultValue={containerId}
+          value={id}
           onChange={(e) => setId(e.target.value)}
         />
         <Button
           onClick={() => {
             onConfirm(suggestId, id);
+            setId("");
           }}
           size="sm"
         >
