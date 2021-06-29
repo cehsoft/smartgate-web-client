@@ -20,9 +20,9 @@ export const ContainerIDConfirm: StyleFC<InputProps> = forwardRef(
     const [id, setId] = useState(containerId);
 
     return (
-      <div className={[className, clsBase] as any} style={style}>
+      <div className={[className] as any} style={style}>
         <TextInput
-          className="mb-2"
+          className={["mb-2", clsInput] as any}
           labelText={score ? `Độ chính xác: ${Math.round(score * 100)}%` : ""}
           id={suggestId ? `${containerId}-${suggestId}` : containerId}
           placeholder="Hãy nhập số container"
@@ -43,4 +43,8 @@ export const ContainerIDConfirm: StyleFC<InputProps> = forwardRef(
   }
 );
 
-var clsBase = css``;
+var clsInput = css`
+  &.bx--text-input {
+    @apply bg-white;
+  }
+`;

@@ -29,10 +29,14 @@ export function useServerInitial(names: Loads[]) {
 
 export function useRequiredAuth(loginPath = "/login") {
   const router = useRouter();
+  let user = "";
+  if (typeof window !== "undefined") {
+    user = localStorage.getItem("logged");
+  }
   const token = useSelector((state) => state.session.token);
 
   useEffect(() => {
-    if (!token) {
+    if (!token && !user) {
       router.push(loginPath);
     }
   }, [token]);

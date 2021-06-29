@@ -15,6 +15,8 @@ export const doLogin = createAsyncThunk(
             user: username,
             pass: password,
           });
+
+          localStorage.setItem("logged", username);
         } else {
           reject(new Error("Mật khẩu không đúng"));
         }
