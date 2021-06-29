@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { sort, descend, prop } from "ramda";
 import { RowDelete16 } from "@carbon/icons-react";
+import { Modal } from "carbon-components-react";
 
 import { useRequiredAuth } from "@/libs/hooks";
 import { useSelector, useDispatch } from "@/store/hooks";
@@ -10,6 +11,7 @@ import { doConfirm, doPullMLResult, reset } from "@/store/slices/container";
 
 import { Page } from "@/components/layout/Page";
 import { ContainerIDConfirm } from "@/components/shared/ContainerIDConfirm";
+import { ResMLResult } from "@/libs/proto/service_pb";
 
 const WebRTCPlayer = dynamic(() => import("@/components/shared/WebRTCPlayer"), {
   ssr: false,
@@ -22,6 +24,9 @@ export const Home = () => {
   const suggests = useSelector((state) =>
     sort(descend(prop("score")), state.container.trackingResults)
   );
+
+  const [modalSuggest, setModalSuggest] = useState<ResMLResult.AsObject>(null);
+  const [hasModal, setModal] = useState(false);
 
   const cameras = [
     {
@@ -54,6 +59,32 @@ export const Home = () => {
 
   return (
     <Page>
+      {modalSuggest && (
+        <Modal
+          open={hasModal}
+          modalLabel={`Độ chính xác: ${modalSuggest.score}`}
+          modalHeading={modalSuggest.containerid}
+          onRequestClose={() => {
+            setModal(false);
+          }}
+          primaryButtonText="Xác nhận"
+          secondaryButtonText="Huỷ"
+          onRequestSubmit={() => {
+            dispatch(
+              doConfirm({
+                suggestId: modalSuggest.suggestid,
+                containerId: modalSuggest.containerid,
+              })
+            );
+            setModal(false);
+          }}
+        >
+          <img
+            className="w-full max-h-56 object-contain object-top"
+            src={modalSuggest.imageurl}
+          />
+        </Modal>
+      )}
       <div className="w-full flex flex-row">
         <div className="w-2/6">
           <div>
@@ -107,11 +138,20 @@ export const Home = () => {
               {suggests.slice(0, 3).map((s, idx) => (
                 <div className="flex flex-row">
                   <img
-                    className="w-1/4 h-28 object-contain object-top"
+                    className="w-1/4 h-28 object-contain object-top cursor-pointer"
                     src={
                       process.env.NEXT_PUBLIC_MINIO +
                       s.imageurl.split("/").slice(4).join("/")
                     }
+                    onClick={() => {
+                      setModalSuggest({
+                        ...s,
+                        imageurl:
+                          process.env.NEXT_PUBLIC_MINIO +
+                          s.imageurl.split("/").slice(4).join("/"),
+                      });
+                      setModal(true);
+                    }}
                     alt=""
                   />
                   <ContainerIDConfirm

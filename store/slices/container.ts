@@ -36,23 +36,27 @@ export const doConfirm = createAsyncThunk(
   }
 );
 
+let puller;
+
 export const doPullMLResult = createAsyncThunk(
   "container/pullMLResult",
   async (args, { dispatch, fulfillWithValue, rejectWithValue }) => {
-    grpcInvoke(MyGRPC.pullMLResult, {
-      request: new ReqEmpty(),
-      onMessage: (message: ResMLResult) => {
-        const result = message.toObject();
-        dispatch(containerSlice.actions.addNewResult(result));
-      },
-      onEnd: (code, msg, trailers) => {
-        if (code == grpc.Code.OK) {
-          fulfillWithValue(code);
-        } else {
-          rejectWithValue({ code, msg, trailers });
-        }
-      },
-    });
+    if (!puller) {
+      puller = grpcInvoke(MyGRPC.pullMLResult, {
+        request: new ReqEmpty(),
+        onMessage: (message: ResMLResult) => {
+          const result = message.toObject();
+          dispatch(containerSlice.actions.addNewResult(result));
+        },
+        onEnd: (code, msg, trailers) => {
+          if (code == grpc.Code.OK) {
+            fulfillWithValue(code);
+          } else {
+            rejectWithValue({ code, msg, trailers });
+          }
+        },
+      });
+    }
   }
 );
 

@@ -17,7 +17,7 @@ export const ContainerIDConfirm: StyleFC<InputProps> = forwardRef(
     { style, className, containerId = "", suggestId, score, onConfirm },
     ref
   ) => {
-    const [id, setId] = useState(containerId);
+    const [conId, setId] = useState(containerId);
 
     return (
       <div className={[className] as any} style={style}>
@@ -26,17 +26,17 @@ export const ContainerIDConfirm: StyleFC<InputProps> = forwardRef(
           labelText={score ? `Độ chính xác: ${Math.round(score * 100)}%` : ""}
           id={suggestId ? `${containerId}-${suggestId}` : containerId}
           placeholder="Hãy nhập số container"
-          value={id}
+          value={conId}
           onChange={(e) => setId(e.target.value)}
         />
         <Button
           onClick={() => {
-            onConfirm(suggestId, id);
+            onConfirm(suggestId, conId);
             setId("");
           }}
           size="sm"
         >
-          {suggestId ? "Chọn" : "Chấp nhận"}
+          {suggestId ? "Chọn" : "Xác nhận"}
         </Button>
       </div>
     );
