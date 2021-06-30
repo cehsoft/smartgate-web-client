@@ -98,6 +98,11 @@ export const containerSlice = createSlice({
     ) => {
       state.trackings = payload;
     },
+    discard: (state, { payload }: PayloadAction<{ suggestId: number }>) => {
+      state.trackingResults = state.trackingResults.filter(
+        (t) => t.suggestid !== payload.suggestId
+      );
+    },
     reset: (state) => {
       state.trackingResults = [];
     },
@@ -123,5 +128,5 @@ export const containerSlice = createSlice({
   },
 });
 
-export const { addNewResult, reset } = containerSlice.actions;
+export const { addNewResult, reset, discard } = containerSlice.actions;
 export const { reducer } = containerSlice;

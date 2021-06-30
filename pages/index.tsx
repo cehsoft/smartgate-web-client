@@ -7,7 +7,12 @@ import { Modal } from "carbon-components-react";
 
 import { useRequiredAuth } from "@/libs/hooks";
 import { useSelector, useDispatch } from "@/store/hooks";
-import { doConfirm, doPullMLResult, reset } from "@/store/slices/container";
+import {
+  doConfirm,
+  doPullMLResult,
+  reset,
+  discard,
+} from "@/store/slices/container";
 
 import { Page } from "@/components/layout/Page";
 import { ContainerIDConfirm } from "@/components/shared/ContainerIDConfirm";
@@ -124,15 +129,19 @@ export const Home = () => {
             </div>
             <div className="p-4 mt-4 text-white bg-black flex flex-row justify-between items-center">
               <span className="font-semibold">Nhập tự động</span>
-              <span
-                className="flex flex-row justify-between items-center cursor-pointer"
-                onClick={() => {
-                  dispatch(reset());
-                }}
-              >
-                <span className="inline-block text-xs mr-1">Làm mới</span>{" "}
-                <RowDelete16 />
-              </span>
+              {suggests.length > 0 && (
+                <span
+                  className="flex flex-row justify-between items-center cursor-pointer"
+                  onClick={() => {
+                    dispatch(reset());
+                  }}
+                >
+                  <span className="inline-block text-xs mr-1">
+                    Làm mới phiên
+                  </span>{" "}
+                  <RowDelete16 />
+                </span>
+              )}
             </div>
             <div className="p-4 bg-gray-200">
               {suggests.length === 0 && <span>Đang chờ lượt xe vào</span>}
@@ -171,9 +180,24 @@ export const Home = () => {
                         })
                       );
                     }}
+                    onDiscard={(suggestId) => {
+                      dispatch(discard({ suggestId }));
+                    }}
                   />
                 </div>
               ))}
+              {suggests.length > 3 ? (
+                <div className="text-center text-xs text-gray-400">
+                  Có {suggests.length - 3} kết quả kém chính xác hơn cho phiên
+                  này
+                </div>
+              ) : (
+                suggests.length > 0 && (
+                  <div className="text-center text-xs text-gray-400">
+                    Nhấp vào ảnh để xem rõ hơn
+                  </div>
+                )
+              )}
             </div>
           </div>
         </div>

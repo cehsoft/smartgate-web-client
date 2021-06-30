@@ -10,11 +10,20 @@ interface InputProps {
   score?: number;
 
   onConfirm(suggestId: number, containerId: string): void;
+  onDiscard?(suggestId: number): void;
 }
 
 export const ContainerIDConfirm: StyleFC<InputProps> = forwardRef(
   (
-    { style, className, containerId = "", suggestId, score, onConfirm },
+    {
+      style,
+      className,
+      containerId = "",
+      suggestId,
+      score,
+      onConfirm,
+      onDiscard,
+    },
     ref
   ) => {
     const [conId, setId] = useState(containerId);
@@ -42,6 +51,18 @@ export const ContainerIDConfirm: StyleFC<InputProps> = forwardRef(
         >
           {suggestId ? "Chọn" : "Xác nhận"}
         </Button>
+        {onDiscard && (
+          <Button
+            className="ml-2"
+            onClick={() => {
+              onDiscard(suggestId);
+            }}
+            kind="secondary"
+            size="sm"
+          >
+            Xoá
+          </Button>
+        )}
       </div>
     );
   }
