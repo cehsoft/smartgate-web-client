@@ -146,7 +146,10 @@ export const Home = () => {
             <div className="p-4 bg-gray-200">
               {suggests.length === 0 && <span>Đang chờ lượt xe vào</span>}
               {suggests.slice(0, 3).map((s, idx) => (
-                <div className="flex flex-row mb-2">
+                <div
+                  key={`${s.suggestid}-${idx}`}
+                  className="flex flex-row mb-2"
+                >
                   <div className="w-1/4 h-28">
                     <img
                       className="w-full max-h-28 object-contain object-top cursor-pointer"
@@ -168,7 +171,6 @@ export const Home = () => {
                   </div>
                   <ContainerIDConfirm
                     className="w-3/4 ml-4"
-                    key={idx}
                     suggestId={s.suggestid}
                     containerId={s.containerid}
                     score={s.score}
