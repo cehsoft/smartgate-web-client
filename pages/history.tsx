@@ -39,6 +39,10 @@ export const History = () => {
         header: "Hình ảnh",
       },
       {
+        key: "score",
+        header: "Độ chính xác",
+      },
+      {
         key: "containerid",
         header: "Số container",
       },
