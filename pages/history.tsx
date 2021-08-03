@@ -116,6 +116,14 @@ export const History = () => {
                           );
                         }
 
+                        if (field === "score") {
+                          return (
+                            <TableCell key={cell.id}>
+                              {Math.round(cell.value * 100)}%
+                            </TableCell>
+                          );
+                        }
+
                         return (
                           <TableCell key={cell.id}>{cell.value}</TableCell>
                         );
