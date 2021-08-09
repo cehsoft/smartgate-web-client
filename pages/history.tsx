@@ -35,12 +35,24 @@ export const History = () => {
         header: "ID",
       },
       {
+        key: "score",
+        header: "Độ chính xác",
+      },
+      {
         key: "imageurl",
         header: "Hình ảnh",
       },
       {
-        key: "score",
-        header: "Độ chính xác",
+        key: "bic",
+        header: "BIC",
+      },
+      {
+        key: "serial",
+        header: "Serial",
+      },
+      {
+        key: "checksum",
+        header: "Checksum",
       },
       {
         key: "containerid",
