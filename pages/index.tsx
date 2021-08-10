@@ -54,6 +54,14 @@ export const Home = () => {
       name: "c239",
       position: "Trái",
     },
+    {
+      name: "c201",
+      position: "Xe",
+    },
+    {
+      name: "c202",
+      position: "Romooc",
+    },
   ];
 
   useEffect(() => {
