@@ -45,7 +45,16 @@ export const SideNav: FC = ({ children }) => {
             }}
             href="/history"
           >
-            Lịch sử
+            Lịch sử nhận dạng
+          </SideNavMenuItem>
+          <SideNavMenuItem
+            onClick={(e) => {
+              e.preventDefault();
+              router.push("/tracking");
+            }}
+            href="/tracking"
+          >
+            Lịch sử ghi nhận
           </SideNavMenuItem>
         </SideNavMenu>
         {/* <SideNavMenu renderIcon={Recording16} title="Cổng Ra - 1" large> */}

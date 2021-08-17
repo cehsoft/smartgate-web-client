@@ -23,11 +23,11 @@ export const History = () => {
   useRequiredAuth();
 
   const dispatch = useDispatch();
-  const total = useSelector((state) => state.container.totalOCR);
-  const ocrs = useSelector((state) => state.container.ocrs);
+  const total = useSelector((state) => state.container.totalTracking);
+  const trackings = useSelector((state) => state.container.trackings);
 
   useEffect(() => {
-    dispatch(doListOCRs({}));
+    dispatch(doListTracking({}));
   }, []);
 
   const headers = useMemo(
@@ -72,7 +72,7 @@ export const History = () => {
     <Page>
       <div className="flex flex-row justify-center">
         <DataTable
-          rows={ocrs as any}
+          rows={trackings as any}
           headers={headers}
           useStaticWidth={true}
           shouldShowBorder={true}
