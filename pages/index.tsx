@@ -33,6 +33,39 @@ export const Home = () => {
   const [modalSuggest, setModalSuggest] = useState<ResMLResult.AsObject>(null);
   const [hasModal, setModal] = useState(false);
 
+  // snp
+  // const cameras = [
+  //   {
+  //     name: "cam214",
+  //     position: "Trước",
+  //   },
+  //   {
+  //     name: "cam209",
+  //     position: "Sau",
+  //   },
+  //   {
+  //     name: "cam215",
+  //     position: "Trên",
+  //   },
+  //   {
+  //     name: "cam210",
+  //     position: "Phải",
+  //   },
+  //   {
+  //     name: "cam212",
+  //     position: "Trái",
+  //   },
+  //   {
+  //     name: "cam207",
+  //     position: "Xe",
+  //   },
+  //   {
+  //     name: "cam208",
+  //     position: "Romooc",
+  //   },
+  // ];
+
+  // spitc
   const cameras = [
     {
       name: "c242",
