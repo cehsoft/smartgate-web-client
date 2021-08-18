@@ -41,20 +41,20 @@ export const SideNav: FC = ({ children }) => {
           <SideNavMenuItem
             onClick={(e) => {
               e.preventDefault();
-              router.push("/history");
+              router.push("/ocr-history");
             }}
-            href="/history"
+            href="/ocr-history"
           >
-            Lịch sử nhận dạng
+            Lịch sử tự nhận dạng
           </SideNavMenuItem>
           <SideNavMenuItem
             onClick={(e) => {
               e.preventDefault();
-              router.push("/tracking");
+              router.push("/tracking-history");
             }}
-            href="/tracking"
+            href="/tracking-history"
           >
-            Lịch sử ghi nhận
+            Lịch sử đã xác nhận
           </SideNavMenuItem>
         </SideNavMenu>
         {/* <SideNavMenu renderIcon={Recording16} title="Cổng Ra - 1" large> */}

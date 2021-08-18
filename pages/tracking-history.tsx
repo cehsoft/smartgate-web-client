@@ -10,8 +10,7 @@ import {
   TableContainer,
   Pagination,
 } from "carbon-components-react";
-import { useEffect, useState, useMemo } from "react";
-import { sort, descend, prop } from "ramda";
+import { useEffect, useMemo } from "react";
 import { useRequiredAuth } from "@/libs/hooks";
 
 import { useSelector, useDispatch } from "@/store/hooks";
