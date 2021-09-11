@@ -53,7 +53,40 @@ export namespace ResEmpty {
   }
 }
 
+export class RequestPaging extends jspb.Message {
+  hasOffset(): boolean;
+  clearOffset(): void;
+  getOffset(): number;
+  setOffset(value: number): void;
+
+  hasLimit(): boolean;
+  clearLimit(): void;
+  getLimit(): number;
+  setLimit(value: number): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): RequestPaging.AsObject;
+  static toObject(includeInstance: boolean, msg: RequestPaging): RequestPaging.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: RequestPaging, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): RequestPaging;
+  static deserializeBinaryFromReader(message: RequestPaging, reader: jspb.BinaryReader): RequestPaging;
+}
+
+export namespace RequestPaging {
+  export type AsObject = {
+    offset: number,
+    limit: number,
+  }
+}
+
 export class ReqEmpty extends jspb.Message {
+  hasPaging(): boolean;
+  clearPaging(): void;
+  getPaging(): RequestPaging | undefined;
+  setPaging(value?: RequestPaging): void;
+
   hasOffset(): boolean;
   clearOffset(): void;
   getOffset(): number;
@@ -76,6 +109,7 @@ export class ReqEmpty extends jspb.Message {
 
 export namespace ReqEmpty {
   export type AsObject = {
+    paging?: RequestPaging.AsObject,
     offset: number,
     limit: number,
   }
@@ -84,6 +118,12 @@ export namespace ReqEmpty {
 export class ReqMLResult extends jspb.Message {
   getContainerid(): string;
   setContainerid(value: string): void;
+
+  getResult(): string;
+  setResult(value: string): void;
+
+  getCamname(): string;
+  setCamname(value: string): void;
 
   getImageurl(): string;
   setImageurl(value: string): void;
@@ -104,8 +144,62 @@ export class ReqMLResult extends jspb.Message {
 export namespace ReqMLResult {
   export type AsObject = {
     containerid: string,
+    result: string,
+    camname: string,
     imageurl: string,
     score: number,
+  }
+}
+
+export class ReqPullMLResult extends jspb.Message {
+  hasPaging(): boolean;
+  clearPaging(): void;
+  getPaging(): RequestPaging | undefined;
+  setPaging(value?: RequestPaging): void;
+
+  getLaneid(): number;
+  setLaneid(value: number): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ReqPullMLResult.AsObject;
+  static toObject(includeInstance: boolean, msg: ReqPullMLResult): ReqPullMLResult.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: ReqPullMLResult, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ReqPullMLResult;
+  static deserializeBinaryFromReader(message: ReqPullMLResult, reader: jspb.BinaryReader): ReqPullMLResult;
+}
+
+export namespace ReqPullMLResult {
+  export type AsObject = {
+    paging?: RequestPaging.AsObject,
+    laneid: number,
+  }
+}
+
+export class ReqListContainerOCRs extends jspb.Message {
+  hasPaging(): boolean;
+  clearPaging(): void;
+  getPaging(): RequestPaging | undefined;
+  setPaging(value?: RequestPaging): void;
+
+  getLaneid(): number;
+  setLaneid(value: number): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ReqListContainerOCRs.AsObject;
+  static toObject(includeInstance: boolean, msg: ReqListContainerOCRs): ReqListContainerOCRs.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: ReqListContainerOCRs, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ReqListContainerOCRs;
+  static deserializeBinaryFromReader(message: ReqListContainerOCRs, reader: jspb.BinaryReader): ReqListContainerOCRs;
+}
+
+export namespace ReqListContainerOCRs {
+  export type AsObject = {
+    paging?: RequestPaging.AsObject,
+    laneid: number,
   }
 }
 
@@ -147,32 +241,6 @@ export namespace ResMLResult {
   }
 }
 
-export class ReqConfirmContainerID extends jspb.Message {
-  hasSuggestid(): boolean;
-  clearSuggestid(): void;
-  getSuggestid(): number;
-  setSuggestid(value: number): void;
-
-  getContainerid(): string;
-  setContainerid(value: string): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): ReqConfirmContainerID.AsObject;
-  static toObject(includeInstance: boolean, msg: ReqConfirmContainerID): ReqConfirmContainerID.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: ReqConfirmContainerID, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): ReqConfirmContainerID;
-  static deserializeBinaryFromReader(message: ReqConfirmContainerID, reader: jspb.BinaryReader): ReqConfirmContainerID;
-}
-
-export namespace ReqConfirmContainerID {
-  export type AsObject = {
-    suggestid: number,
-    containerid: string,
-  }
-}
-
 export class ContainerOCR extends jspb.Message {
   getId(): number;
   setId(value: number): void;
@@ -194,6 +262,12 @@ export class ContainerOCR extends jspb.Message {
 
   getChecksum(): string;
   setChecksum(value: string): void;
+
+  getTrackingtype(): string;
+  setTrackingtype(value: string): void;
+
+  getTrackingsession(): string;
+  setTrackingsession(value: string): void;
 
   getCreatedat(): number;
   setCreatedat(value: number): void;
@@ -217,6 +291,8 @@ export namespace ContainerOCR {
     bic: string,
     serial: string,
     checksum: string,
+    trackingtype: string,
+    trackingsession: string,
     createdat: number,
   }
 }
@@ -270,38 +346,6 @@ export namespace ContainerTracking {
     serial: string,
     checksum: string,
     createdat: number,
-  }
-}
-
-export class ResListContainerTrackings extends jspb.Message {
-  hasStatus(): boolean;
-  clearStatus(): void;
-  getStatus(): ResStatus | undefined;
-  setStatus(value?: ResStatus): void;
-
-  getTotal(): number;
-  setTotal(value: number): void;
-
-  clearTrackingsList(): void;
-  getTrackingsList(): Array<ContainerTracking>;
-  setTrackingsList(value: Array<ContainerTracking>): void;
-  addTrackings(value?: ContainerTracking, index?: number): ContainerTracking;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): ResListContainerTrackings.AsObject;
-  static toObject(includeInstance: boolean, msg: ResListContainerTrackings): ResListContainerTrackings.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: ResListContainerTrackings, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): ResListContainerTrackings;
-  static deserializeBinaryFromReader(message: ResListContainerTrackings, reader: jspb.BinaryReader): ResListContainerTrackings;
-}
-
-export namespace ResListContainerTrackings {
-  export type AsObject = {
-    status?: ResStatus.AsObject,
-    total: number,
-    trackingsList: Array<ContainerTracking.AsObject>,
   }
 }
 

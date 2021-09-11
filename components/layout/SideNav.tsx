@@ -9,22 +9,22 @@ import {
 } from "carbon-components-react";
 
 export const SideNav: FC = ({ children }) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   const router = useRouter();
 
   return (
-    <BXSideNav
-      aria-label="Side navigation"
-      onToggle={(event, val) => {
-        setOpen(val);
-      }}
-      isRail
-    >
-      {/* <BXSideNav aria-label="Side navigation" isRail isFixedNav expanded={true}> */}
-      <SideNavItems isSideNavExpanded={open}>
+    // <BXSideNav
+    //   aria-label="Side navigation"
+    //   onToggle={(event, val) => {
+    //     setOpen(val);
+    //   }}
+    //   isRail
+    // >
+    <BXSideNav aria-label="Side navigation" isRail isFixedNav expanded={true}>
+      <SideNavItems>
         <SideNavMenu
-          aria-current="page"
+          // aria-current="page"
           renderIcon={Recording16}
           title="Cổng Vào - 1"
           large
@@ -32,29 +32,20 @@ export const SideNav: FC = ({ children }) => {
           <SideNavMenuItem
             onClick={(e) => {
               e.preventDefault();
-              router.push("/");
+              router.push("/live-stream/4");
             }}
-            href="/"
+            href="/live-stream/4"
           >
             Kiểm soát cổng
           </SideNavMenuItem>
           <SideNavMenuItem
             onClick={(e) => {
               e.preventDefault();
-              router.push("/ocr-history");
+              router.push("/ocr-history/4");
             }}
-            href="/ocr-history"
+            href="/ocr-history/4"
           >
-            Lịch sử tự nhận dạng
-          </SideNavMenuItem>
-          <SideNavMenuItem
-            onClick={(e) => {
-              e.preventDefault();
-              router.push("/tracking-history");
-            }}
-            href="/tracking-history"
-          >
-            Lịch sử đã xác nhận
+            Lịch sử
           </SideNavMenuItem>
         </SideNavMenu>
         {/* <SideNavMenu renderIcon={Recording16} title="Cổng Ra - 1" large> */}

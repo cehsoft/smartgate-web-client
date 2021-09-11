@@ -11,22 +11,27 @@ import {
   Pagination,
 } from "carbon-components-react";
 import { useEffect, useMemo } from "react";
+import { useRouter } from "next/router";
 import { useRequiredAuth } from "@/libs/hooks";
 
 import { useSelector, useDispatch } from "@/store/hooks";
-import { doListTracking, doListOCRs } from "@/store/slices/container";
+import { doListOCRs } from "@/store/slices/container";
 
 import { Page } from "@/components/layout/Page";
 
 export const History = () => {
   useRequiredAuth();
 
+  const router = useRouter();
+  const query = router.query;
+  const laneId = parseInt([].concat(query.laneId).shift());
+
   const dispatch = useDispatch();
-  const total = useSelector((state) => state.container.totalTracking);
-  const trackings = useSelector((state) => state.container.trackings);
+  const total = useSelector((state) => state.container.totalOCR);
+  const ocrs = useSelector((state) => state.container.ocrs);
 
   useEffect(() => {
-    dispatch(doListTracking({}));
+    dispatch(doListOCRs({ laneId }));
   }, []);
 
   const headers = useMemo(
@@ -55,9 +60,21 @@ export const History = () => {
         key: "checksum",
         header: "Checksum",
       },
+      // {
+      //   key: "containerid",
+      //   header: "Số container",
+      // },
       {
-        key: "containerid",
-        header: "Số container",
+        key: "result",
+        header: "Kết quả",
+      },
+      {
+        key: "trackingtype",
+        header: "Phân loại",
+      },
+      {
+        key: "trackingsession",
+        header: "Mã ra vào",
       },
       {
         key: "createdat",
@@ -71,7 +88,7 @@ export const History = () => {
     <Page>
       <div className="flex flex-row justify-center">
         <DataTable
-          rows={trackings as any}
+          rows={ocrs as any}
           headers={headers}
           useStaticWidth={true}
           shouldShowBorder={true}
@@ -156,6 +173,7 @@ export const History = () => {
         onChange={({ page, pageSize }) => {
           dispatch(
             doListOCRs({
+              laneId,
               limit: pageSize,
               offset: page - 1,
             })
@@ -181,5 +199,11 @@ var clsContainer = css`
     @apply bg-white;
   }
 `;
+
+export async function getServerSideProps(context) {
+  return {
+    props: {}, // will be passed to the page component as props
+  };
+}
 
 export default History;

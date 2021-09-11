@@ -31,7 +31,7 @@ const classHeaderNav = css`
 export const Header: FC = ({ children }) => {
   return (
     <BXHeader aria-label="SPITC Platform Name">
-      <HeaderName className={classHeader} href="#" prefix="SPITC">
+      <HeaderName className={classHeader} href="#" prefix="SMART GATE">
         Bảng Điều Khiển
       </HeaderName>
       <HeaderNavigation

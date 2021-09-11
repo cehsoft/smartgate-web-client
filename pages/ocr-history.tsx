@@ -26,7 +26,7 @@ export const History = () => {
   const ocrs = useSelector((state) => state.container.ocrs);
 
   useEffect(() => {
-    dispatch(doListOCRs({}));
+    dispatch(doListOCRs({ laneId: 4 }));
   }, []);
 
   const headers = useMemo(
@@ -55,9 +55,21 @@ export const History = () => {
         key: "checksum",
         header: "Checksum",
       },
+      // {
+      //   key: "containerid",
+      //   header: "Số container",
+      // },
       {
-        key: "containerid",
-        header: "Số container",
+        key: "result",
+        header: "Kết quả",
+      },
+      {
+        key: "trackingtype",
+        header: "Phân loại",
+      },
+      {
+        key: "trackingsession",
+        header: "Thứ tự phiên",
       },
       {
         key: "createdat",
@@ -156,6 +168,7 @@ export const History = () => {
         onChange={({ page, pageSize }) => {
           dispatch(
             doListOCRs({
+              laneId: 4,
               limit: pageSize,
               offset: page - 1,
             })
