@@ -19,6 +19,7 @@ import {
 import { Page } from "@/components/layout/Page";
 import { ContainerIDConfirm } from "@/components/shared/ContainerIDConfirm";
 import { ResMLResult } from "@/libs/proto/service_pb";
+import { doListCamSettings } from "@/store/slices/setting";
 
 const WebRTCPlayer = dynamic(() => import("@/components/shared/WebRTCPlayer"), {
   ssr: false,
@@ -35,77 +36,19 @@ export const Home = () => {
   const suggests = useSelector((state) =>
     sort(descend(prop("score")), state.container.trackingResults)
   );
+  const cameras = useSelector((state) => state.setting.cams);
 
   const [modalSuggest, setModalSuggest] = useState<ResMLResult.AsObject>(null);
   const [hasModal, setModal] = useState(false);
 
-  // snp
-  // const cameras = [
-  //   {
-  //     name: "cam214",
-  //     position: "Trước",
-  //   },
-  //   {
-  //     name: "cam209",
-  //     position: "Sau",
-  //   },
-  //   {
-  //     name: "cam215",
-  //     position: "Trên",
-  //   },
-  //   {
-  //     name: "cam210",
-  //     position: "Phải",
-  //   },
-  //   {
-  //     name: "cam212",
-  //     position: "Trái",
-  //   },
-  //   {
-  //     name: "cam207",
-  //     position: "Xe",
-  //   },
-  //   {
-  //     name: "cam208",
-  //     position: "Romooc",
-  //   },
-  // ];
-
-  // spitc
-  const cameras = [
-    {
-      name: "c242",
-      position: "Trước",
-    },
-    {
-      name: "c240",
-      position: "Sau",
-    },
-    {
-      name: "c241",
-      position: "Trên",
-    },
-    {
-      name: "c238",
-      position: "Phải",
-    },
-    {
-      name: "c239",
-      position: "Trái",
-    },
-    {
-      name: "c201",
-      position: "Xe",
-    },
-    {
-      name: "c202",
-      position: "Romooc",
-    },
-  ];
-
   useEffect(() => {
     dispatch(doPullMLResult({ laneId }));
+    dispatch(doListCamSettings({ laneId }));
   }, []);
+
+  useEffect(() => {
+    setCam(cameras[0]);
+  }, [cameras]);
 
   const [selectedCam, setCam] = useState(cameras[0]);
 
@@ -201,28 +144,32 @@ export const Home = () => {
         </div>
         <div className="w-7/12">
           <div className="mx-4">
-            <div className={clsVideo}>
-              <div className="bg-white p-4 font-semibold flex flex-row justify-between">
-                <span>Vị trí cam: {selectedCam.position}</span>
-                <span>Cam số: {selectedCam.name}</span>
+            {selectedCam && (
+              <div className={clsVideo}>
+                <div className="bg-white p-4 font-semibold flex flex-row justify-between">
+                  <span>Vị trí cam: {selectedCam.position}</span>
+                  <span>Cam số: {selectedCam.name}</span>
+                </div>
+                <WebRTCPlayer controls={true} camId={selectedCam.name} />
               </div>
-              <WebRTCPlayer controls={true} camId={selectedCam.name} />
+            )}
+          </div>
+          {selectedCam && (
+            <div className={clsCameraSelections}>
+              {cameras
+                .filter((cam) => cam.name != selectedCam.name)
+                .map((cam) => (
+                  <Button
+                    size="sm"
+                    key={cam.name}
+                    className={clsVideoItem}
+                    onClick={() => setCam(cam)}
+                  >
+                    {cam.position}
+                  </Button>
+                ))}
             </div>
-          </div>
-          <div className={clsCameraSelections}>
-            {cameras
-              .filter((cam) => cam.name != selectedCam.name)
-              .map(({ name, position }) => (
-                <Button
-                  size="sm"
-                  key={name}
-                  className={clsVideoItem}
-                  onClick={() => setCam({ name, position })}
-                >
-                  {position}
-                </Button>
-              ))}
-          </div>
+          )}
         </div>
       </div>
       <div></div>

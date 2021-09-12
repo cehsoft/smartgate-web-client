@@ -31,11 +31,31 @@ type MyGRPClistContainerOCRs = {
   readonly responseType: typeof proto_service_pb.ResListContainerOCRs;
 };
 
+type MyGRPClistCamSettings = {
+  readonly methodName: string;
+  readonly service: typeof MyGRPC;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof proto_service_pb.ReqListCamSettings;
+  readonly responseType: typeof proto_service_pb.ResListCamSettings;
+};
+
+type MyGRPClistLanes = {
+  readonly methodName: string;
+  readonly service: typeof MyGRPC;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof proto_service_pb.ReqListLanes;
+  readonly responseType: typeof proto_service_pb.ResListLanes;
+};
+
 export class MyGRPC {
   static readonly serviceName: string;
   static readonly newMLResult: MyGRPCnewMLResult;
   static readonly pullMLResult: MyGRPCpullMLResult;
   static readonly listContainerOCRs: MyGRPClistContainerOCRs;
+  static readonly listCamSettings: MyGRPClistCamSettings;
+  static readonly listLanes: MyGRPClistLanes;
 }
 
 export type ServiceError = { message: string, code: number; metadata: grpc.Metadata }
@@ -88,6 +108,24 @@ export class MyGRPCClient {
   listContainerOCRs(
     requestMessage: proto_service_pb.ReqListContainerOCRs,
     callback: (error: ServiceError|null, responseMessage: proto_service_pb.ResListContainerOCRs|null) => void
+  ): UnaryResponse;
+  listCamSettings(
+    requestMessage: proto_service_pb.ReqListCamSettings,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: proto_service_pb.ResListCamSettings|null) => void
+  ): UnaryResponse;
+  listCamSettings(
+    requestMessage: proto_service_pb.ReqListCamSettings,
+    callback: (error: ServiceError|null, responseMessage: proto_service_pb.ResListCamSettings|null) => void
+  ): UnaryResponse;
+  listLanes(
+    requestMessage: proto_service_pb.ReqListLanes,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: proto_service_pb.ResListLanes|null) => void
+  ): UnaryResponse;
+  listLanes(
+    requestMessage: proto_service_pb.ReqListLanes,
+    callback: (error: ServiceError|null, responseMessage: proto_service_pb.ResListLanes|null) => void
   ): UnaryResponse;
 }
 

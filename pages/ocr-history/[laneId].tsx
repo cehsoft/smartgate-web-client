@@ -155,7 +155,7 @@ export const History = () => {
                         }
 
                         return (
-                          <TableCell key={cell.id}>{cell.value}</TableCell>
+                          <TableCell key={cell.id}>{`${cell.value}`}</TableCell>
                         );
                       })}
                     </TableRow>

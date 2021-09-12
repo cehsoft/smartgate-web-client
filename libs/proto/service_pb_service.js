@@ -37,6 +37,24 @@ MyGRPC.listContainerOCRs = {
   responseType: proto_service_pb.ResListContainerOCRs
 };
 
+MyGRPC.listCamSettings = {
+  methodName: "listCamSettings",
+  service: MyGRPC,
+  requestStream: false,
+  responseStream: false,
+  requestType: proto_service_pb.ReqListCamSettings,
+  responseType: proto_service_pb.ResListCamSettings
+};
+
+MyGRPC.listLanes = {
+  methodName: "listLanes",
+  service: MyGRPC,
+  requestStream: false,
+  responseStream: false,
+  requestType: proto_service_pb.ReqListLanes,
+  responseType: proto_service_pb.ResListLanes
+};
+
 exports.MyGRPC = MyGRPC;
 
 function MyGRPCClient(serviceHost, options) {
@@ -119,6 +137,68 @@ MyGRPCClient.prototype.listContainerOCRs = function listContainerOCRs(requestMes
     callback = arguments[1];
   }
   var client = grpc.unary(MyGRPC.listContainerOCRs, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+MyGRPCClient.prototype.listCamSettings = function listCamSettings(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(MyGRPC.listCamSettings, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
+      client.close();
+    }
+  };
+};
+
+MyGRPCClient.prototype.listLanes = function listLanes(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(MyGRPC.listLanes, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,

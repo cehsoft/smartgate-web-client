@@ -4,11 +4,13 @@ import { configureStore } from "@reduxjs/toolkit";
 import { reducer as session } from "@/store/slices/session";
 import { reducer as load } from "@/store/slices/load";
 import { reducer as container } from "@/store/slices/container";
+import { reducer as setting } from "@/store/slices/setting";
 
 const reducer = {
   session,
   load,
   container,
+  setting,
 };
 
 export let store = configureStore({

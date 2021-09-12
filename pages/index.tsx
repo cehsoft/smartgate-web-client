@@ -1,13 +1,8 @@
 import { css } from "linaria";
-import dynamic from "next/dynamic";
 
 import { useRequiredAuth } from "@/libs/hooks";
 
 import { Page } from "@/components/layout/Page";
-
-const WebRTCPlayer = dynamic(() => import("@/components/shared/WebRTCPlayer"), {
-  ssr: false,
-});
 
 export const Home = () => {
   useRequiredAuth();
