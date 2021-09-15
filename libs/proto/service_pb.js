@@ -1888,6 +1888,7 @@ proto.main.ContainerOCR.toObject = function(includeInstance, msg) {
     id: jspb.Message.getFieldWithDefault(msg, 1, 0),
     score: jspb.Message.getFloatingPointFieldWithDefault(msg, 5, 0.0),
     containerid: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    result: jspb.Message.getFieldWithDefault(msg, 11, ""),
     imageurl: jspb.Message.getFieldWithDefault(msg, 3, ""),
     bic: jspb.Message.getFieldWithDefault(msg, 6, ""),
     serial: jspb.Message.getFieldWithDefault(msg, 7, ""),
@@ -1942,6 +1943,10 @@ proto.main.ContainerOCR.deserializeBinaryFromReader = function(msg, reader) {
     case 2:
       var value = /** @type {string} */ (reader.readString());
       msg.setContainerid(value);
+      break;
+    case 11:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setResult(value);
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
@@ -2018,6 +2023,13 @@ proto.main.ContainerOCR.serializeBinaryToWriter = function(message, writer) {
   if (f.length > 0) {
     writer.writeString(
       2,
+      f
+    );
+  }
+  f = message.getResult();
+  if (f.length > 0) {
+    writer.writeString(
+      11,
       f
     );
   }
@@ -2124,6 +2136,24 @@ proto.main.ContainerOCR.prototype.getContainerid = function() {
  */
 proto.main.ContainerOCR.prototype.setContainerid = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
+};
+
+
+/**
+ * optional string Result = 11;
+ * @return {string}
+ */
+proto.main.ContainerOCR.prototype.getResult = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 11, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.main.ContainerOCR} returns this
+ */
+proto.main.ContainerOCR.prototype.setResult = function(value) {
+  return jspb.Message.setProto3StringField(this, 11, value);
 };
 
 

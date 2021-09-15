@@ -225,6 +225,9 @@ export class ContainerOCR extends jspb.Message {
   getContainerid(): string;
   setContainerid(value: string): void;
 
+  getResult(): string;
+  setResult(value: string): void;
+
   getImageurl(): string;
   setImageurl(value: string): void;
 
@@ -261,6 +264,7 @@ export namespace ContainerOCR {
     id: number,
     score: number,
     containerid: string,
+    result: string,
     imageurl: string,
     bic: string,
     serial: string,

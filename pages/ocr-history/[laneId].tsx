@@ -29,6 +29,9 @@ export const History = () => {
   const dispatch = useDispatch();
   const total = useSelector((state) => state.container.totalOCR);
   const ocrs = useSelector((state) => state.container.ocrs);
+  const lane = useSelector((state) =>
+    state.setting.lanes.find((l) => l.id === laneId)
+  );
 
   useEffect(() => {
     dispatch(doListOCRs({ laneId }));
@@ -86,7 +89,7 @@ export const History = () => {
 
   return (
     <Page>
-      <div className="flex flex-row justify-center">
+      <div className="flex flex-row">
         <DataTable
           rows={ocrs as any}
           headers={headers}
@@ -97,7 +100,12 @@ export const History = () => {
           {({ rows, headers, getTableProps, getHeaderProps, getRowProps }) => (
             <TableContainer
               className={clsContainer}
-              title={`Lịch sử "Cổng Vào - 1"`}
+              title={lane ? `Lịch sử "${lane.name} ${lane.gatename}"` : ""}
+              description={
+                lane
+                  ? `ID: ${lane.id} | Cổng: ${lane.gatename} | Hướng đi: ${lane.name} `
+                  : ""
+              }
             >
               <Table {...getTableProps()}>
                 <TableHead>
@@ -162,24 +170,23 @@ export const History = () => {
                   ))}
                 </TableBody>
               </Table>
+              <Pagination
+                pageSizes={[10, 20, 50, 100]}
+                totalItems={total}
+                onChange={({ page, pageSize }) => {
+                  dispatch(
+                    doListOCRs({
+                      laneId,
+                      limit: pageSize,
+                      offset: page - 1,
+                    })
+                  );
+                }}
+              ></Pagination>
             </TableContainer>
           )}
         </DataTable>
       </div>
-      <Pagination
-        className="mt-4"
-        pageSizes={[10, 20, 50, 100]}
-        totalItems={total}
-        onChange={({ page, pageSize }) => {
-          dispatch(
-            doListOCRs({
-              laneId,
-              limit: pageSize,
-              offset: page - 1,
-            })
-          );
-        }}
-      ></Pagination>
     </Page>
   );
 };
@@ -195,8 +202,14 @@ var clsBody = css`
 `;
 
 var clsContainer = css`
+  @apply w-full;
+
   & .bx--data-table-header {
     @apply bg-white;
+  }
+
+  & .bx--data-table--static {
+    @apply w-full;
   }
 `;
 
