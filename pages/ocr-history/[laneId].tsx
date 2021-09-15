@@ -72,12 +72,12 @@ export const History = () => {
         header: "Kết quả",
       },
       {
-        key: "trackingtype",
-        header: "Phân loại",
-      },
-      {
         key: "trackingsession",
         header: "Mã ra vào",
+      },
+      {
+        key: "trackingtype",
+        header: "Phân loại",
       },
       {
         key: "createdat",
@@ -142,6 +142,26 @@ export const History = () => {
                               />
                             </TableCell>
                           );
+                        }
+
+                        if (field === "trackingtype") {
+                          let label = "";
+                          switch (cell.value) {
+                            case "contID":
+                              label = "Số Container";
+                              break;
+                            case "romoocID":
+                              label = "Số Rơ moóc";
+                              break;
+                            case "vehicleID":
+                              label = "Số Xe";
+                              break;
+                            default:
+                              label = cell.value;
+                              break;
+                          }
+
+                          return <TableCell key={cell.id}>{label}</TableCell>;
                         }
 
                         if (field === "createdat") {
