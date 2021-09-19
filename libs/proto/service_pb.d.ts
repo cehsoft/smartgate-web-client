@@ -246,6 +246,9 @@ export class ContainerOCR extends jspb.Message {
   getTrackingsession(): string;
   setTrackingsession(value: string): void;
 
+  getIsvalid(): boolean;
+  setIsvalid(value: boolean): void;
+
   getCreatedat(): number;
   setCreatedat(value: number): void;
 
@@ -271,6 +274,7 @@ export namespace ContainerOCR {
     checksum: string,
     trackingtype: string,
     trackingsession: string,
+    isvalid: boolean,
     createdat: number,
   }
 }
@@ -478,6 +482,30 @@ export class ResListLanes extends jspb.Message {
 export namespace ResListLanes {
   export type AsObject = {
     lanesList: Array<Lane.AsObject>,
+  }
+}
+
+export class ReqValidateOCR extends jspb.Message {
+  getOcrid(): number;
+  setOcrid(value: number): void;
+
+  getValid(): boolean;
+  setValid(value: boolean): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ReqValidateOCR.AsObject;
+  static toObject(includeInstance: boolean, msg: ReqValidateOCR): ReqValidateOCR.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: ReqValidateOCR, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ReqValidateOCR;
+  static deserializeBinaryFromReader(message: ReqValidateOCR, reader: jspb.BinaryReader): ReqValidateOCR;
+}
+
+export namespace ReqValidateOCR {
+  export type AsObject = {
+    ocrid: number,
+    valid: boolean,
   }
 }
 

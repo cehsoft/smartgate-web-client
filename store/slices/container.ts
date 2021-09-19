@@ -10,6 +10,8 @@ import {
   ContainerOCR,
   ReqListContainerOCRs,
   RequestPaging,
+  ReqValidateOCR,
+  ResEmpty,
 } from "@/libs/proto/service_pb";
 
 let puller;
@@ -21,6 +23,7 @@ export const doPullMLResult = createAsyncThunk(
     { dispatch, fulfillWithValue, rejectWithValue }
   ) => {
     if (puller) {
+      console.log("close old puller!");
       puller.close();
     }
 
@@ -72,6 +75,31 @@ export const doListOCRs = createAsyncThunk(
           })
         );
       },
+      onEnd: (code, msg, trailers) => {
+        if (code == grpc.Code.OK) {
+          fulfillWithValue(code);
+        } else {
+          rejectWithValue({ code, msg, trailers });
+        }
+      },
+    });
+  }
+);
+
+export const doValidateOCR = createAsyncThunk(
+  "container/validateOCR",
+  async (
+    { ocrID, valid }: { ocrID: number; valid: boolean },
+    { dispatch, fulfillWithValue, rejectWithValue }
+  ) => {
+    console.log(ocrID, valid);
+    let req = new ReqValidateOCR();
+
+    req.setOcrid(ocrID);
+    req.setValid(valid);
+
+    grpcInvoke(MyGRPC.validateOCR, {
+      request: req,
       onEnd: (code, msg, trailers) => {
         if (code == grpc.Code.OK) {
           fulfillWithValue(code);

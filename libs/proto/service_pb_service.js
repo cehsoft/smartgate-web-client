@@ -28,6 +28,15 @@ MyGRPC.pullMLResult = {
   responseType: proto_service_pb.ResMLResult
 };
 
+MyGRPC.validateOCR = {
+  methodName: "validateOCR",
+  service: MyGRPC,
+  requestStream: false,
+  responseStream: false,
+  requestType: proto_service_pb.ReqValidateOCR,
+  responseType: proto_service_pb.ResEmpty
+};
+
 MyGRPC.listContainerOCRs = {
   methodName: "listContainerOCRs",
   service: MyGRPC,
@@ -127,6 +136,37 @@ MyGRPCClient.prototype.pullMLResult = function pullMLResult(requestMessage, meta
     },
     cancel: function () {
       listeners = null;
+      client.close();
+    }
+  };
+};
+
+MyGRPCClient.prototype.validateOCR = function validateOCR(requestMessage, metadata, callback) {
+  if (arguments.length === 2) {
+    callback = arguments[1];
+  }
+  var client = grpc.unary(MyGRPC.validateOCR, {
+    request: requestMessage,
+    host: this.serviceHost,
+    metadata: metadata,
+    transport: this.options.transport,
+    debug: this.options.debug,
+    onEnd: function (response) {
+      if (callback) {
+        if (response.status !== grpc.Code.OK) {
+          var err = new Error(response.statusMessage);
+          err.code = response.status;
+          err.metadata = response.trailers;
+          callback(err, null);
+        } else {
+          callback(null, response.message);
+        }
+      }
+    }
+  });
+  return {
+    cancel: function () {
+      callback = null;
       client.close();
     }
   };

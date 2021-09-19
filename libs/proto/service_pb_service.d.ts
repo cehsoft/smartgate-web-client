@@ -22,6 +22,15 @@ type MyGRPCpullMLResult = {
   readonly responseType: typeof proto_service_pb.ResMLResult;
 };
 
+type MyGRPCvalidateOCR = {
+  readonly methodName: string;
+  readonly service: typeof MyGRPC;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof proto_service_pb.ReqValidateOCR;
+  readonly responseType: typeof proto_service_pb.ResEmpty;
+};
+
 type MyGRPClistContainerOCRs = {
   readonly methodName: string;
   readonly service: typeof MyGRPC;
@@ -53,6 +62,7 @@ export class MyGRPC {
   static readonly serviceName: string;
   static readonly newMLResult: MyGRPCnewMLResult;
   static readonly pullMLResult: MyGRPCpullMLResult;
+  static readonly validateOCR: MyGRPCvalidateOCR;
   static readonly listContainerOCRs: MyGRPClistContainerOCRs;
   static readonly listCamSettings: MyGRPClistCamSettings;
   static readonly listLanes: MyGRPClistLanes;
@@ -100,6 +110,15 @@ export class MyGRPCClient {
     callback: (error: ServiceError|null, responseMessage: proto_service_pb.ResEmpty|null) => void
   ): UnaryResponse;
   pullMLResult(requestMessage: proto_service_pb.ReqPullMLResult, metadata?: grpc.Metadata): ResponseStream<proto_service_pb.ResMLResult>;
+  validateOCR(
+    requestMessage: proto_service_pb.ReqValidateOCR,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: proto_service_pb.ResEmpty|null) => void
+  ): UnaryResponse;
+  validateOCR(
+    requestMessage: proto_service_pb.ReqValidateOCR,
+    callback: (error: ServiceError|null, responseMessage: proto_service_pb.ResEmpty|null) => void
+  ): UnaryResponse;
   listContainerOCRs(
     requestMessage: proto_service_pb.ReqListContainerOCRs,
     metadata: grpc.Metadata,

@@ -9,13 +9,14 @@ import {
   TableCell,
   TableContainer,
   Pagination,
+  Toggle,
 } from "carbon-components-react";
 import { useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
 import { useRequiredAuth } from "@/libs/hooks";
 
 import { useSelector, useDispatch } from "@/store/hooks";
-import { doListOCRs } from "@/store/slices/container";
+import { doListOCRs, doValidateOCR } from "@/store/slices/container";
 
 import { Page } from "@/components/layout/Page";
 
@@ -78,6 +79,10 @@ export const History = () => {
       {
         key: "trackingtype",
         header: "Phân loại",
+      },
+      {
+        key: "isvalid",
+        header: "Kết quả",
       },
       {
         key: "createdat",
@@ -182,6 +187,30 @@ export const History = () => {
                           );
                         }
 
+                        if (field === "isvalid") {
+                          return (
+                            <TableCell key={cell.id}>
+                              <Toggle
+                                className={clsToggle}
+                                id={cell.id}
+                                size="sm"
+                                labelA="Chưa kiểm"
+                                labelB="Đúng"
+                                defaultToggled={cell.value}
+                                onToggle={(checked) => {
+                                  dispatch(
+                                    doValidateOCR({
+                                      ocrID: idx,
+                                      valid: checked,
+                                    })
+                                  );
+                                }}
+                                // labelText="Label text"
+                              />
+                            </TableCell>
+                          );
+                        }
+
                         return (
                           <TableCell key={cell.id}>{`${cell.value}`}</TableCell>
                         );
@@ -230,6 +259,12 @@ var clsContainer = css`
 
   & .bx--data-table--static {
     @apply w-full;
+  }
+`;
+
+var clsToggle = css`
+  & .bx--toggle__switch {
+    @apply my-0;
   }
 `;
 
