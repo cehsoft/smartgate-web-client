@@ -10,8 +10,9 @@ import {
   TableContainer,
   Pagination,
   Toggle,
+  Tooltip,
 } from "carbon-components-react";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import { useRequiredAuth } from "@/libs/hooks";
 
@@ -19,6 +20,7 @@ import { useSelector, useDispatch } from "@/store/hooks";
 import { doListOCRs, doValidateOCR } from "@/store/slices/container";
 
 import { Page } from "@/components/layout/Page";
+import { Outside } from "@/components/Outside";
 
 export const History = () => {
   useRequiredAuth();
@@ -137,14 +139,15 @@ export const History = () => {
 
                           return (
                             <TableCell key={cell.id}>
-                              <img
+                              {/* <img
                                 className="max-w-xs max-h-36 object-contain object-top my-2"
                                 src={
                                   process.env.NEXT_PUBLIC_MINIO +
                                   cell.value.split("/").slice(4).join("/")
                                 }
                                 alt=""
-                              />
+                              /> */}
+                              <OCRImg imagePath={cell.value} />
                             </TableCell>
                           );
                         }
@@ -183,6 +186,26 @@ export const History = () => {
                           return (
                             <TableCell key={cell.id}>
                               {Math.round(cell.value * 100)}%
+                            </TableCell>
+                          );
+                        }
+
+                        if (field === "result") {
+                          return (
+                            <TableCell key={cell.id}>
+                              <span className="font-bold text-blue-900">
+                                {cell.value}
+                              </span>
+                            </TableCell>
+                          );
+                        }
+
+                        if (field === "trackingsession") {
+                          return (
+                            <TableCell key={cell.id}>
+                              <span className="font-bold text-yellow-900">
+                                {cell.value}
+                              </span>
                             </TableCell>
                           );
                         }
@@ -239,6 +262,45 @@ export const History = () => {
     </Page>
   );
 };
+
+const OCRImg = ({ imagePath }) => {
+  const [show, setShow] = useState(false);
+
+  const parts = imagePath.split("/").slice(4);
+  const imgURL = process.env.NEXT_PUBLIC_MINIO + parts.join("/");
+  parts[2] = "fullsizeID";
+  const fullImgURL = process.env.NEXT_PUBLIC_MINIO + parts.join("/");
+
+  return (
+    <Outside delay={10} onClick={() => setShow(false)}>
+      <Tooltip
+        className={clsTooltop}
+        open={show}
+        showIcon={false}
+        triggerText={
+          <img
+            onClick={() => setShow(!show)}
+            className="max-w-xs max-h-36 object-contain object-top my-2"
+            src={imgURL}
+            alt=""
+          />
+        }
+      >
+        <img
+          className="max-w-lg object-contain object-top my-2"
+          src={fullImgURL}
+          alt=""
+        />
+      </Tooltip>
+    </Outside>
+  );
+};
+
+var clsTooltop = css`
+  width: 500px;
+  max-width: none;
+  padding: 5px;
+`;
 
 var clsBody = css`
   .bx--data-table & {
