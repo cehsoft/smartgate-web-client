@@ -193,9 +193,7 @@ export const History = () => {
                         if (field === "result") {
                           return (
                             <TableCell key={cell.id}>
-                              <span className="font-bold text-blue-900">
-                                {cell.value}
-                              </span>
+                              <span className="font-bold">{cell.value}</span>
                             </TableCell>
                           );
                         }
@@ -203,9 +201,7 @@ export const History = () => {
                         if (field === "trackingsession") {
                           return (
                             <TableCell key={cell.id}>
-                              <span className="font-bold text-yellow-900">
-                                {cell.value}
-                              </span>
+                              <span className="font-bold">{cell.value}</span>
                             </TableCell>
                           );
                         }
@@ -264,17 +260,19 @@ export const History = () => {
 };
 
 const OCRImg = ({ imagePath }) => {
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
 
   const parts = imagePath.split("/").slice(4);
   const imgURL = process.env.NEXT_PUBLIC_MINIO + parts.join("/");
-  parts[2] = "fullsizeID";
-  const fullImgURL = process.env.NEXT_PUBLIC_MINIO + parts.join("/");
+  const fullImgURL = imgURL.replace(
+    /contID|vehicleID|romoocID/gm,
+    "fullsizeID"
+  );
 
   return (
-    <Outside delay={10} onClick={() => setShow(false)}>
+    <Outside delay={10} onClick={() => setShow(true)}>
       <Tooltip
-        className={clsTooltop}
+        className={clsTooltip}
         open={show}
         showIcon={false}
         triggerText={
@@ -296,7 +294,7 @@ const OCRImg = ({ imagePath }) => {
   );
 };
 
-var clsTooltop = css`
+var clsTooltip = css`
   width: 500px;
   max-width: none;
   padding: 5px;
