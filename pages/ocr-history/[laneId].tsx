@@ -285,7 +285,7 @@ const OCRImg = ({ imagePath }) => {
         }
       >
         <img
-          className="max-w-lg object-contain object-top my-2"
+          className="max-w-full object-contain object-top my-2"
           src={fullImgURL}
           alt=""
         />
