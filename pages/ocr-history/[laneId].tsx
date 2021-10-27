@@ -260,7 +260,7 @@ export const History = () => {
 };
 
 const OCRImg = ({ imagePath }) => {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
 
   const parts = imagePath.split("/").slice(4);
   const imgURL = process.env.NEXT_PUBLIC_MINIO + parts.join("/");
@@ -270,7 +270,7 @@ const OCRImg = ({ imagePath }) => {
   );
 
   return (
-    <Outside delay={10} onClick={() => setShow(true)}>
+    <Outside delay={10} onClick={() => setShow(false)}>
       <Tooltip
         className={clsTooltip}
         open={show}
