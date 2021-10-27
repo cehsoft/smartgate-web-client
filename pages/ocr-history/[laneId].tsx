@@ -284,11 +284,13 @@ const OCRImg = ({ imagePath }) => {
           />
         }
       >
-        <img
-          className="max-w-full object-contain object-top my-2"
-          src={fullImgURL}
-          alt=""
-        />
+        <a href={fullImgURL} target="_blank">
+          <img
+            className="max-w-full object-contain object-top my-2"
+            src={fullImgURL}
+            alt=""
+          />
+        </a>
       </Tooltip>
     </Outside>
   );
