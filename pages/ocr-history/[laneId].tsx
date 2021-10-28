@@ -22,6 +22,19 @@ import { doListOCRs, doValidateOCR } from "@/store/slices/container";
 import { Page } from "@/components/layout/Page";
 import { Outside } from "@/components/Outside";
 
+var stringToColour = function (str) {
+  var hash = 0;
+  for (var i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  var colour = "#";
+  for (var i = 0; i < 3; i++) {
+    var value = (hash >> (i * 8)) & 0xff;
+    colour += ("00" + value.toString(16)).substr(-2);
+  }
+  return colour;
+};
+
 export const History = () => {
   useRequiredAuth();
 
@@ -185,7 +198,7 @@ export const History = () => {
                         if (field === "score") {
                           return (
                             <TableCell key={cell.id}>
-                              {Math.round(cell.value * 100)}%
+                              {cell.value.toFixed(6) * 100}%
                             </TableCell>
                           );
                         }
@@ -201,7 +214,14 @@ export const History = () => {
                         if (field === "trackingsession") {
                           return (
                             <TableCell key={cell.id}>
-                              <span className="font-bold">{cell.value}</span>
+                              <span
+                                style={{
+                                  color: stringToColour(cell.value),
+                                }}
+                                className="font-bold"
+                              >
+                                {cell.value}
+                              </span>
                             </TableCell>
                           );
                         }
